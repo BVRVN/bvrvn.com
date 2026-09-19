@@ -100,11 +100,11 @@ body {
 
 .page {
   width: 100%;
-  max-width: 420px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 36px;
+  align-items: stretch;
+  gap: clamp(28px, 6vw, 56px);
   opacity: 0;
   animation: rise 0.7s ease forwards 0.1s;
 }
@@ -118,13 +118,13 @@ body {
   width: 100%;
   max-width: 100%;
   display: flex;
-  align-items: center;
-  gap: clamp(12px, 5vw, 24px);
+  align-items: flex-start;
+  gap: clamp(16px, 4vw, 40px);
   min-width: 0;
 }
 
 .photo {
-  width: clamp(56px, 20vw, 88px);
+  width: clamp(72px, 18vw, 150px);
   flex-shrink: 0;
 }
 
@@ -134,75 +134,99 @@ body {
   box-shadow: 0 28px 50px -14px rgba(0, 0, 0, 0.5);
 }
 
-.brand {
+/* Row one is the lockup; the section list starts under the surname, so both
+   share the second grid column. */
+.masthead {
   flex: 1;
-  display: flex;
-  align-items: center;
-  gap: clamp(4px, 1.5vw, 6px);
-  justify-content: flex-start;
   min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: clamp(6px, 1.2vw, 14px);
 }
 
-.brand__logo {
-  width: auto;
-  max-width: clamp(120px, 40vw, 220px);
+.masthead__logo {
+  grid-column: 1;
+  grid-row: 1;
+  width: clamp(96px, 26vw, 250px);
+  max-width: 100%;
   height: auto;
   display: block;
-  flex-shrink: 1;
+  align-self: center;
   min-width: 0;
 }
 
-.brand__suffix {
+.masthead__name,
+.menu__item {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(26px, 9vw, 60px);
   font-weight: 500;
-  letter-spacing: -0.1em;
-  color: #02091E;
+  letter-spacing: -0.06em;
+  color: var(--fg);
+  line-height: 0.88;
+}
+
+.masthead__name {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: clamp(30px, 8.4vw, 76px);
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.links {
-  width: 100%;
+.menu {
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: flex-start;
+  margin-top: 0.06em;
 }
 
-.link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 16px 22px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--fg);
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  font-weight: 500;
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-.link__icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-.link:hover,
-.link:focus-visible {
-  background-color: var(--fg);
-  color: var(--bg);
+.menu__item {
+  font-size: clamp(30px, 8.4vw, 76px);
 }
 
 .footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
   color: var(--muted);
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-@media (max-width: 380px) {
-  .page { gap: 28px; }
+.social {
+  display: flex;
+  gap: 20px;
+}
+
+.social a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.social a:hover,
+.social a:focus-visible {
+  color: var(--fg);
+}
+
+/* Narrow screens cannot fit the logo and surname side by side, so the lockup
+   stacks instead of overlapping. */
+@media (max-width: 620px) {
+  .masthead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .masthead__logo,
+  .masthead__name,
+  .menu {
+    grid-column: 1;
+  }
+
+  .masthead__logo { grid-row: 1; }
+  .masthead__name { grid-row: 2; }
+  .menu { grid-row: 3; }
 }
