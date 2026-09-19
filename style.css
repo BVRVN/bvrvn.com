@@ -53,6 +53,10 @@ body {
   align-items: center;
   gap: 3px;
   justify-self: start;
+}
+
+.topbar__home {
+  display: block;
   text-decoration: none;
 }
 
