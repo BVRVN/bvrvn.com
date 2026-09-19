@@ -52,6 +52,8 @@ body {
   display: flex;
   align-items: center;
   gap: 3px;
+  justify-self: start;
+  text-decoration: none;
 }
 
 .topbar__logo {
@@ -73,6 +75,8 @@ body {
 .topbar__photo {
   grid-column: 2;
   justify-self: center;
+  display: block;
+  text-decoration: none;
 }
 
 .topbar__photo img {
