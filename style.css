@@ -80,7 +80,6 @@ body {
   font-size: clamp(14px, 1.9vw, 22px);
   font-weight: 500;
   letter-spacing: -0.07em;
-  text-transform: uppercase;
   color: #02091E;
   white-space: nowrap;
 }
