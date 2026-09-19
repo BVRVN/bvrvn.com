@@ -17,7 +17,7 @@ html, body {
 }
 
 body {
-  background: var(--bg);
+  background: var(--bg) url("assets/bg-texture.jpg") center center / cover no-repeat;
   color: var(--fg);
   font-family: "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
