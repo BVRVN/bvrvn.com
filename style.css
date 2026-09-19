@@ -66,7 +66,7 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   justify-content: flex-start;
   min-width: 0;
 }
@@ -81,10 +81,10 @@ body {
 
 .brand__suffix {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: 42px;
+  font-size: 60px;
   font-weight: 500;
-  letter-spacing: -0.07em;
-  color: #12172b;
+  letter-spacing: -0.1em;
+  color: #02091E;
   white-space: nowrap;
 }
 
@@ -134,6 +134,6 @@ body {
   .page { gap: 28px; }
   .hero { gap: 14px; }
   .brand__logo { max-width: 140px; }
-  .brand__suffix { font-size: 27px; }
+  .brand__suffix { font-size: 38px; }
   .photo { width: 64px; }
 }
