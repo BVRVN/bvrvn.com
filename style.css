@@ -74,9 +74,8 @@ body {
 
 .topbar__photo img {
   height: 34px;
-  width: 34px;
+  width: auto;
   object-fit: cover;
-  border-radius: 50%;
   display: block;
 }
 
