@@ -14,6 +14,8 @@
 
 html, body {
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -98,13 +100,15 @@ body {
 
 .hero {
   width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: clamp(12px, 5vw, 24px);
+  min-width: 0;
 }
 
 .photo {
-  width: 88px;
+  width: clamp(56px, 20vw, 88px);
   flex-shrink: 0;
 }
 
@@ -118,22 +122,23 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: clamp(4px, 1.5vw, 6px);
   justify-content: flex-start;
   min-width: 0;
 }
 
 .brand__logo {
-  width: 100%;
-  max-width: 220px;
+  width: auto;
+  max-width: clamp(120px, 40vw, 220px);
   height: auto;
   display: block;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .brand__suffix {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: 60px;
+  font-size: clamp(26px, 9vw, 60px);
   font-weight: 500;
   letter-spacing: -0.1em;
   color: #02091E;
@@ -184,8 +189,4 @@ body {
 
 @media (max-width: 380px) {
   .page { gap: 28px; }
-  .hero { gap: 14px; }
-  .brand__logo { max-width: 140px; }
-  .brand__suffix { font-size: 38px; }
-  .photo { width: 64px; }
 }
