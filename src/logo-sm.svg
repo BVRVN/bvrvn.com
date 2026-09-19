@@ -1,70 +1,22 @@
-<svg width="1176" height="378" viewBox="0 0 392 126" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1176" height="378" viewBox="0 0 392 126" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<path id="baran-glyph" fill-rule="evenodd" clip-rule="evenodd" d="M6 0.945006C4.9 1.39601 3.1 2.764 2 3.987C0.0500014 6.155 1.36055e-06 7.61802 1.36055e-06 62.687V119.164C1.36055e-06 119.164 0.617274 122.257 2 123.517C3.41477 124.807 6.64002 125.097 6.64002 125.097L40.895 124.799L73.5 124.114C73.5 124.114 78.5 122.614 79 121.614C79.5 120.614 84.007 121.058 106.31 64.5C110.214 54.6 113.915 45.15 114.535 43.5C115.742 40.291 116.174 41.295 140.6 104C147.693 122.211 149.887 125 157.116 125C160.996 125 163.439 125.051 166 122.517C167.385 121.147 168.5 118.2 168.5 118.2V99.1V80H176.353H184.206L197.1 100.93C205.047 113.83 211.013 122.463 212.651 123.43C215.78 125.278 221.728 125.479 224.816 123.841C228.872 121.69 229.156 121.1 241.146 90C244.22 82.025 247.522 73.7 248.482 71.5C249.442 69.3 252.366 61.95 254.98 55.167C257.594 48.383 260.084 43.208 260.513 43.667C260.941 44.125 267.213 60.025 274.449 79C281.685 97.975 288.369 115.007 289.303 116.849C292.073 122.317 295.982 125 301.177 125C304.988 125 307.417 124.658 310 122.114C311.292 120.842 312.5 118.2 312.5 118.2V80.447V42.693L327.807 63.097C336.226 74.318 349.53 92.038 357.372 102.473C365.214 112.907 372.838 122.242 374.315 123.216C379.52 126.649 388.004 124.579 390.415 119.288C391.153 117.667 391.5 99.224 391.5 61.557V5.97817C391.5 5.97817 390.5 2.97823 389 1.97823C387.5 0.978226 379.009 -1.004 374.572 1.616C368.961 4.931 369.024 4.465 368.704 44.816L368.408 82.131L352.34 60.816C343.503 49.092 330.485 31.787 323.411 22.36C316.338 12.933 309.155 4.04598 307.449 2.60998C303.059 -1.08302 296.648 -0.224362 292 2.97818C290.668 3.89562 290 5.97818 290 5.97818L289.5 29.166L289 52.5L285.371 43.5C276.597 21.741 270.321 6.534 269.417 4.845C268.126 2.433 263.292 -0.0010022 259.8 0.0039978C255.806 0.0089978 251.095 3.20699 249.298 7.13199C248.45 8.98399 245.032 17.25 241.703 25.5C238.373 33.75 231.566 50.536 226.575 62.801C221.584 75.067 217 85.478 217 86C216 88 215.364 86.513 211.5 80.269L207.696 73.559L210.348 71.939C214.021 69.695 220.036 62.841 222.321 58.295C226.607 49.769 227.501 37.788 224.583 27.986C221.476 17.552 211.715 7.226 200.844 2.875C195.348 0.673998 193.701 0.534005 173.17 0.518005L151.339 0.499999C151.339 0.499999 149.152 0.610518 147.5 2.92014C145.848 5.22977 145.5 7.03201 145.5 7.03201L145.47 29.766C145.448 45.692 145.134 51.976 144.42 50.751C143.86 49.789 140.494 41.689 136.941 32.751C133.388 23.813 130.064 15.6 129.555 14.5C129.046 13.4 127.74 10.394 126.652 7.82101C124.399 2.48801 120.663 0 114.908 0C108.841 0 106.323 3.833 96.841 27.5C92.214 39.05 87.821 49.85 87.079 51.5C86.337 53.15 85.154 56.144 84.449 58.154L83.168 61.808L79.297 59.247L75.427 56.686L77.869 54.093C83.52 48.093 84.967 44.108 84.984 34.5C84.999 26.169 84.751 25.04 81.646 19.316C76.614 10.039 69.861 4.618 59.568 1.595C55.254 0.328 49.393 0.0129883 31.068 0.0629883C18.381 0.0979883 7.1 0.495006 6 0.945006ZM55.42 23.585C60.662 25.682 62.5 28.709 62.5 35.242C62.5 45.943 58.485 48 37.599 48H22.5V35V22H36.98C47.862 22 52.444 22.394 55.42 23.585ZM192.128 23.6C194.258 24.479 196.835 25.942 197.856 26.85C202.948 31.377 205.102 42.02 202.095 47.8C198.295 55.103 191.416 58 177.874 58H168.5V40V22H178.378C185.151 22 189.473 22.503 192.128 23.6ZM61.606 72.855C67.871 75.954 69.7 78.925 69.7 85.997C69.7 92.869 67.898 96.503 62.732 100.046C59.305 102.396 58.375 102.514 40.827 102.829L22.5 103.159V86.443V69.727L39.856 70.204C55.072 70.623 57.753 70.95 61.606 72.855Z"/>
-<mask id="shade-top" maskUnits="userSpaceOnUse" x="-20" y="-20" width="432" height="166">
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(255,255,255)" transform="translate(0.0,0.0)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(242,242,242)" transform="translate(0.138,0.277)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(229,229,229)" transform="translate(0.277,0.554)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(216,216,216)" transform="translate(0.415,0.831)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(204,204,204)" transform="translate(0.554,1.108)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(191,191,191)" transform="translate(0.692,1.385)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(179,179,179)" transform="translate(0.831,1.662)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(167,167,167)" transform="translate(0.969,1.938)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(155,155,155)" transform="translate(1.108,2.215)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(144,144,144)" transform="translate(1.246,2.492)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(132,132,132)" transform="translate(1.385,2.769)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(121,121,121)" transform="translate(1.523,3.046)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(111,111,111)" transform="translate(1.662,3.323)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(100,100,100)" transform="translate(1.8,3.6)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(90,90,90)" transform="translate(1.938,3.877)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(80,80,80)" transform="translate(2.077,4.154)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(70,70,70)" transform="translate(2.215,4.431)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(61,61,61)" transform="translate(2.354,4.708)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(52,52,52)" transform="translate(2.492,4.985)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(43,43,43)" transform="translate(2.631,5.262)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(35,35,35)" transform="translate(2.769,5.538)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(28,28,28)" transform="translate(2.908,5.815)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(20,20,20)" transform="translate(3.046,6.092)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(14,14,14)" transform="translate(3.185,6.369)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(8,8,8)" transform="translate(3.323,6.646)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(3,3,3)" transform="translate(3.462,6.923)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(0,0,0)" transform="translate(3.6,7.2)"/>
-</mask>
-<mask id="shade-bottom" maskUnits="userSpaceOnUse" x="-20" y="-20" width="432" height="166">
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(255,255,255)" transform="translate(-0.0,-0.0)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(242,242,242)" transform="translate(-0.108,-0.215)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(229,229,229)" transform="translate(-0.215,-0.431)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(216,216,216)" transform="translate(-0.323,-0.646)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(204,204,204)" transform="translate(-0.431,-0.862)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(191,191,191)" transform="translate(-0.538,-1.077)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(179,179,179)" transform="translate(-0.646,-1.292)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(167,167,167)" transform="translate(-0.754,-1.508)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(155,155,155)" transform="translate(-0.862,-1.723)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(144,144,144)" transform="translate(-0.969,-1.938)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(132,132,132)" transform="translate(-1.077,-2.154)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(121,121,121)" transform="translate(-1.185,-2.369)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(111,111,111)" transform="translate(-1.292,-2.585)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(100,100,100)" transform="translate(-1.4,-2.8)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(90,90,90)" transform="translate(-1.508,-3.015)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(80,80,80)" transform="translate(-1.615,-3.231)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(70,70,70)" transform="translate(-1.723,-3.446)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(61,61,61)" transform="translate(-1.831,-3.662)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(52,52,52)" transform="translate(-1.938,-3.877)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(43,43,43)" transform="translate(-2.046,-4.092)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(35,35,35)" transform="translate(-2.154,-4.308)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(28,28,28)" transform="translate(-2.262,-4.523)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(20,20,20)" transform="translate(-2.369,-4.738)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(14,14,14)" transform="translate(-2.477,-4.954)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(8,8,8)" transform="translate(-2.585,-5.169)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(3,3,3)" transform="translate(-2.692,-5.385)"/>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="rgb(0,0,0)" transform="translate(-2.8,-5.6)"/>
-</mask>
+<filter id="emboss" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">
+<feOffset in="SourceAlpha" dx="3.64" dy="7.84" result="offTop"/>
+<feGaussianBlur in="offTop" stdDeviation="7.28" result="blurTop"/>
+<feComposite operator="out" in="SourceAlpha" in2="blurTop" result="rimTop"/>
+<feFlood flood-color="#000000" flood-opacity="0.55" result="inkTop"/>
+<feComposite operator="in" in="inkTop" in2="rimTop" result="shadeTop"/>
+<feOffset in="SourceAlpha" dx="-2.8" dy="-6.16" result="offBottom"/>
+<feGaussianBlur in="offBottom" stdDeviation="6.16" result="blurBottom"/>
+<feComposite operator="out" in="SourceAlpha" in2="blurBottom" result="rimBottom"/>
+<feFlood flood-color="#000000" flood-opacity="0.45" result="inkBottom"/>
+<feComposite operator="in" in="inkBottom" in2="rimBottom" result="shadeBottom"/>
+<feMerge>
+<feMergeNode in="SourceGraphic"/>
+<feMergeNode in="shadeBottom"/>
+<feMergeNode in="shadeTop"/>
+</feMerge>
+</filter>
 </defs>
-<use href="#baran-glyph" xlink:href="#baran-glyph" fill="#9A9686"/>
-<g mask="url(#shade-top)">
-<rect x="-20" y="-20" width="432" height="166" fill="#000000" opacity="0.55"/>
-</g>
-<g mask="url(#shade-bottom)">
-<rect x="-20" y="-20" width="432" height="166" fill="#000000" opacity="0.42"/>
-</g>
+<path filter="url(#emboss)" fill-rule="evenodd" clip-rule="evenodd" fill="#9A9686" d="M6 0.945006C4.9 1.39601 3.1 2.764 2 3.987C0.0500014 6.155 1.36055e-06 7.61802 1.36055e-06 62.687V119.164C1.36055e-06 119.164 0.617274 122.257 2 123.517C3.41477 124.807 6.64002 125.097 6.64002 125.097L40.895 124.799L73.5 124.114C73.5 124.114 78.5 122.614 79 121.614C79.5 120.614 84.007 121.058 106.31 64.5C110.214 54.6 113.915 45.15 114.535 43.5C115.742 40.291 116.174 41.295 140.6 104C147.693 122.211 149.887 125 157.116 125C160.996 125 163.439 125.051 166 122.517C167.385 121.147 168.5 118.2 168.5 118.2V99.1V80H176.353H184.206L197.1 100.93C205.047 113.83 211.013 122.463 212.651 123.43C215.78 125.278 221.728 125.479 224.816 123.841C228.872 121.69 229.156 121.1 241.146 90C244.22 82.025 247.522 73.7 248.482 71.5C249.442 69.3 252.366 61.95 254.98 55.167C257.594 48.383 260.084 43.208 260.513 43.667C260.941 44.125 267.213 60.025 274.449 79C281.685 97.975 288.369 115.007 289.303 116.849C292.073 122.317 295.982 125 301.177 125C304.988 125 307.417 124.658 310 122.114C311.292 120.842 312.5 118.2 312.5 118.2V80.447V42.693L327.807 63.097C336.226 74.318 349.53 92.038 357.372 102.473C365.214 112.907 372.838 122.242 374.315 123.216C379.52 126.649 388.004 124.579 390.415 119.288C391.153 117.667 391.5 99.224 391.5 61.557V5.97817C391.5 5.97817 390.5 2.97823 389 1.97823C387.5 0.978226 379.009 -1.004 374.572 1.616C368.961 4.931 369.024 4.465 368.704 44.816L368.408 82.131L352.34 60.816C343.503 49.092 330.485 31.787 323.411 22.36C316.338 12.933 309.155 4.04598 307.449 2.60998C303.059 -1.08302 296.648 -0.224362 292 2.97818C290.668 3.89562 290 5.97818 290 5.97818L289.5 29.166L289 52.5L285.371 43.5C276.597 21.741 270.321 6.534 269.417 4.845C268.126 2.433 263.292 -0.0010022 259.8 0.0039978C255.806 0.0089978 251.095 3.20699 249.298 7.13199C248.45 8.98399 245.032 17.25 241.703 25.5C238.373 33.75 231.566 50.536 226.575 62.801C221.584 75.067 217 85.478 217 86C216 88 215.364 86.513 211.5 80.269L207.696 73.559L210.348 71.939C214.021 69.695 220.036 62.841 222.321 58.295C226.607 49.769 227.501 37.788 224.583 27.986C221.476 17.552 211.715 7.226 200.844 2.875C195.348 0.673998 193.701 0.534005 173.17 0.518005L151.339 0.499999C151.339 0.499999 149.152 0.610518 147.5 2.92014C145.848 5.22977 145.5 7.03201 145.5 7.03201L145.47 29.766C145.448 45.692 145.134 51.976 144.42 50.751C143.86 49.789 140.494 41.689 136.941 32.751C133.388 23.813 130.064 15.6 129.555 14.5C129.046 13.4 127.74 10.394 126.652 7.82101C124.399 2.48801 120.663 0 114.908 0C108.841 0 106.323 3.833 96.841 27.5C92.214 39.05 87.821 49.85 87.079 51.5C86.337 53.15 85.154 56.144 84.449 58.154L83.168 61.808L79.297 59.247L75.427 56.686L77.869 54.093C83.52 48.093 84.967 44.108 84.984 34.5C84.999 26.169 84.751 25.04 81.646 19.316C76.614 10.039 69.861 4.618 59.568 1.595C55.254 0.328 49.393 0.0129883 31.068 0.0629883C18.381 0.0979883 7.1 0.495006 6 0.945006ZM55.42 23.585C60.662 25.682 62.5 28.709 62.5 35.242C62.5 45.943 58.485 48 37.599 48H22.5V35V22H36.98C47.862 22 52.444 22.394 55.42 23.585ZM192.128 23.6C194.258 24.479 196.835 25.942 197.856 26.85C202.948 31.377 205.102 42.02 202.095 47.8C198.295 55.103 191.416 58 177.874 58H168.5V40V22H178.378C185.151 22 189.473 22.503 192.128 23.6ZM61.606 72.855C67.871 75.954 69.7 78.925 69.7 85.997C69.7 92.869 67.898 96.503 62.732 100.046C59.305 102.396 58.375 102.514 40.827 102.829L22.5 103.159V86.443V69.727L39.856 70.204C55.072 70.623 57.753 70.95 61.606 72.855Z"/>
 </svg>
