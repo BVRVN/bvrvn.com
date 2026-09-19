@@ -1,19 +1,19 @@
 <svg width="1176" height="378" viewBox="0 0 392 126" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <filter id="emboss" x="-25%" y="-40%" width="150%" height="180%" color-interpolation-filters="sRGB">
-<feOffset in="SourceAlpha" dx="3.64" dy="7.84" result="offTop"/>
-<feGaussianBlur in="offTop" stdDeviation="7.28" result="blurTop"/>
+<feOffset in="SourceAlpha" dx="3.02" dy="6.72" result="offTop"/>
+<feGaussianBlur in="offTop" stdDeviation="11.2" result="blurTop"/>
 <feComposite operator="out" in="SourceAlpha" in2="blurTop" result="rimTop"/>
-<feFlood flood-color="#000000" flood-opacity="0.55" result="inkTop"/>
+<feFlood flood-color="#000000" flood-opacity="0.45" result="inkTop"/>
 <feComposite operator="in" in="inkTop" in2="rimTop" result="shadeTop"/>
-<feOffset in="SourceAlpha" dx="-2.8" dy="-6.16" result="offBottom"/>
-<feGaussianBlur in="offBottom" stdDeviation="6.16" result="blurBottom"/>
-<feComposite operator="out" in="SourceAlpha" in2="blurBottom" result="rimBottom"/>
-<feFlood flood-color="#000000" flood-opacity="0.45" result="inkBottom"/>
-<feComposite operator="in" in="inkBottom" in2="rimBottom" result="shadeBottom"/>
+<feOffset in="SourceAlpha" dx="-1.76" dy="-3.92" result="offBot"/>
+<feGaussianBlur in="offBot" stdDeviation="9.8" result="blurBot"/>
+<feComposite operator="out" in="SourceAlpha" in2="blurBot" result="rimBot"/>
+<feFlood flood-color="#000000" flood-opacity="0.18" result="inkBot"/>
+<feComposite operator="in" in="inkBot" in2="rimBot" result="shadeBot"/>
 <feMerge>
 <feMergeNode in="SourceGraphic"/>
-<feMergeNode in="shadeBottom"/>
+<feMergeNode in="shadeBot"/>
 <feMergeNode in="shadeTop"/>
 </feMerge>
 </filter>
