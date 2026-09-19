@@ -77,9 +77,9 @@ body {
 
 .topbar__suffix {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(19px, 2.75vw, 32px);
+  font-size: clamp(14px, 1.9vw, 22px);
   font-weight: 500;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.07em;
   text-transform: uppercase;
   color: #02091E;
   white-space: nowrap;
