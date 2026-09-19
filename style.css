@@ -65,6 +65,8 @@ body {
 .brand {
   flex: 1;
   display: flex;
+  align-items: center;
+  gap: 10px;
   justify-content: flex-start;
   min-width: 0;
 }
@@ -74,6 +76,19 @@ body {
   max-width: 220px;
   height: auto;
   display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7)) drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.3));
+}
+
+.brand__suffix {
+  font-size: 30px;
+  font-weight: 700;
+  color: #12172b;
+  text-decoration: underline;
+  text-decoration-color: #2f6fed;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+  white-space: nowrap;
 }
 
 .links {
@@ -122,5 +137,6 @@ body {
   .page { gap: 28px; }
   .hero { gap: 14px; }
   .brand__logo { max-width: 140px; }
+  .brand__suffix { font-size: 19px; }
   .photo { width: 64px; }
 }
