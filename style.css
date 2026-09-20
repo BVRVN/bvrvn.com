@@ -121,19 +121,20 @@ body {
   width: 26px;
   height: 2px;
   margin-left: -13px;
+  margin-top: -1px;
   background: var(--fg);
   transition: transform 0.38s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .burger__bar:nth-child(1) { transform: translateY(-5px); }
-.burger__bar:nth-child(2) { transform: translateY(4px); }
+.burger__bar:nth-child(2) { transform: translateY(5px); }
 
 .burger[aria-expanded="true"] .burger__bar:nth-child(1) {
-  transform: translateY(-1px) rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .burger[aria-expanded="true"] .burger__bar:nth-child(2) {
-  transform: translateY(0) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .drawer {
