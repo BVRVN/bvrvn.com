@@ -227,6 +227,11 @@ body {
   align-items: flex-start;
 }
 
+.page--top .photo {
+  width: clamp(84px, 20vw, 175px);
+  align-self: flex-end;
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
