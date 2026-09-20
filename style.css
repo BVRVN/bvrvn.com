@@ -220,6 +220,13 @@ body {
   animation: rise 0.7s ease forwards 0.1s;
 }
 
+/* Pages that fill downwards start at the top instead of being centred in
+   the viewport. */
+.page--top {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
