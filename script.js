@@ -43,6 +43,7 @@ let typingRun = 0;
 async function retype(word) {
   const run = ++typingRun;
   const current = suffix.textContent;
+  suffix.classList.add("is-typing");
 
   for (let i = current.length - 1; i >= 0; i--) {
     if (run !== typingRun) return;
@@ -54,6 +55,12 @@ async function retype(word) {
     if (run !== typingRun) return;
     suffix.textContent = word.slice(0, i);
     await wait(70);
+  }
+
+  // A newer run owns the caret now, so only the last one clears it.
+  if (run === typingRun) {
+    await wait(450);
+    if (run === typingRun) suffix.classList.remove("is-typing");
   }
 }
 
