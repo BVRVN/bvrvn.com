@@ -264,7 +264,7 @@ body {
 
 .studio-head__name {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(29px, 6.9vw, 64px);
+  font-size: clamp(33px, 7.8vw, 73px);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 1;
