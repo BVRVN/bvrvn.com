@@ -98,6 +98,101 @@ body {
   display: block;
 }
 
+/* Two bars that scissor into a cross. Each sits centred and is pushed apart
+   by its own translate, so opening only has to cancel that offset. */
+.burger {
+  grid-column: 3;
+  justify-self: end;
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.burger__bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 2px;
+  margin-left: -13px;
+  background: var(--fg);
+  transition: transform 0.38s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.burger__bar:nth-child(1) { transform: translateY(-5px); }
+.burger__bar:nth-child(2) { transform: translateY(4px); }
+
+.burger[aria-expanded="true"] .burger__bar:nth-child(1) {
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.burger[aria-expanded="true"] .burger__bar:nth-child(2) {
+  transform: translateY(0) rotate(-45deg);
+}
+
+.drawer {
+  position: fixed;
+  top: var(--topbar-h);
+  left: 0;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 28px clamp(20px, 3vw, 40px) 36px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.drawer[hidden] {
+  display: none;
+}
+
+.drawer.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.drawer__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.drawer__item {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 1.05;
+  color: var(--fg);
+}
+
+.drawer__social {
+  display: flex;
+  gap: 20px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.drawer__social a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
 .page {
   width: 100%;
   max-width: 760px;
@@ -229,4 +324,16 @@ body {
   .masthead__logo { grid-row: 1; }
   .masthead__name { grid-row: 2; }
   .menu { grid-row: 3; }
+
+  .burger {
+    display: block;
+  }
+}
+
+/* The drawer is a phone-only affordance; wider screens show the sections
+   on the page itself. */
+@media (min-width: 621px) {
+  .drawer {
+    display: none;
+  }
 }
