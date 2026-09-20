@@ -295,10 +295,12 @@ body {
 
 .menu__item,
 .panel__item {
+  display: inline-block;
   border: 0;
   padding: 0;
   background: none;
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s ease;

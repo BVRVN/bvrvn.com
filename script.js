@@ -1,4 +1,5 @@
-document.getElementById("year").textContent = new Date().getFullYear();
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
 
 const topbar = document.querySelector(".topbar");
 const burger = document.querySelector(".burger");
@@ -72,7 +73,9 @@ async function retype(word) {
   }
 }
 
-document.querySelectorAll(".menu__item, .panel__item").forEach((item) => {
+// Sections with a page of their own are links and just navigate; the rest
+// only swap the word in the bar for now.
+document.querySelectorAll("button.menu__item, button.panel__item").forEach((item) => {
   item.addEventListener("click", () => {
     setPanel(false);
     if (item.textContent !== suffix.textContent) retype(item.textContent);
