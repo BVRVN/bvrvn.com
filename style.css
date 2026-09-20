@@ -44,15 +44,18 @@ body {
   left: 0;
   right: 0;
   z-index: 100;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.topbar__row {
   height: var(--topbar-h);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0 clamp(20px, 3vw, 40px);
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .topbar__brand {
@@ -153,42 +156,37 @@ body {
   transform: rotate(-45deg);
 }
 
-.drawer {
-  position: fixed;
-  top: var(--topbar-h);
-  left: 0;
-  right: 0;
-  z-index: 99;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding: 28px clamp(20px, 3vw, 40px) 36px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+/* The bar itself grows rather than a second panel sliding in underneath.
+   Height is driven in pixels from script: fr units do not interpolate
+   reliably across engines. */
+.panel {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.42s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.panel__inner {
   opacity: 0;
-  transform: translateY(-12px);
-  transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
+  /* Kept out of the tab order until the bar has finished expanding. */
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0s linear 0.42s;
 }
 
-.drawer[hidden] {
-  display: none;
-}
-
-.drawer.is-open {
+.topbar.is-open .panel__inner {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  transition: opacity 0.3s ease 0.12s, visibility 0s;
 }
 
-.drawer__menu {
+.panel__menu {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  padding: 26px clamp(20px, 3vw, 40px) 0;
 }
 
-.drawer__item {
+.panel__item {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: 34px;
   font-weight: 500;
@@ -197,15 +195,16 @@ body {
   color: var(--fg);
 }
 
-.drawer__social {
+.panel__social {
   display: flex;
   gap: 20px;
+  padding: 26px clamp(20px, 3vw, 40px) 30px;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.drawer__social a {
+.panel__social a {
   color: var(--muted);
   text-decoration: none;
 }
@@ -295,7 +294,7 @@ body {
 }
 
 .menu__item,
-.drawer__item {
+.panel__item {
   border: 0;
   padding: 0;
   background: none;
@@ -307,8 +306,8 @@ body {
 
 .menu__item:hover,
 .menu__item:focus-visible,
-.drawer__item:hover,
-.drawer__item:focus-visible {
+.panel__item:hover,
+.panel__item:focus-visible {
   opacity: 0.45;
 }
 
@@ -365,10 +364,10 @@ body {
   }
 }
 
-/* The drawer is a phone-only affordance; wider screens show the sections
+/* The panel is a phone-only affordance; wider screens show the sections
    on the page itself. */
 @media (min-width: 621px) {
-  .drawer {
+  .panel {
     display: none;
   }
 }

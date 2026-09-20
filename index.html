@@ -14,36 +14,40 @@
 <body>
 
 <nav class="topbar">
-  <div class="topbar__brand">
-    <a class="topbar__home" href="/" aria-label="Accueil">
-      <img draggable="false" src="assets/logo.svg" alt="BARAN" class="topbar__logo">
+  <div class="topbar__row">
+    <div class="topbar__brand">
+      <a class="topbar__home" href="/" aria-label="Accueil">
+        <img draggable="false" src="assets/logo.svg" alt="BARAN" class="topbar__logo">
+      </a>
+      <span class="topbar__suffix">Studio</span>
+    </div>
+    <a class="topbar__photo" href="/" aria-label="Accueil">
+      <img draggable="false" src="assets/photo.jpg" alt="">
     </a>
-    <span class="topbar__suffix">Studio</span>
+
+    <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="panel">
+      <span class="burger__bar"></span>
+      <span class="burger__bar"></span>
+    </button>
   </div>
-  <a class="topbar__photo" href="/" aria-label="Accueil">
-    <img draggable="false" src="assets/photo.jpg" alt="">
-  </a>
 
-  <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer">
-    <span class="burger__bar"></span>
-    <span class="burger__bar"></span>
-  </button>
+  <div class="panel" id="panel">
+    <div class="panel__inner">
+      <nav class="panel__menu">
+        <button type="button" class="panel__item">Studio</button>
+        <button type="button" class="panel__item">Radio</button>
+        <button type="button" class="panel__item">Portfolio</button>
+        <button type="button" class="panel__item">Shop</button>
+        <button type="button" class="panel__item">Card</button>
+      </nav>
+      <nav class="panel__social">
+        <a href="https://instagram.com/bvrvn" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://x.com/BVRVNstudio" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://tiktok.com/@.bvrvn" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </nav>
+    </div>
+  </div>
 </nav>
-
-<div class="drawer" id="drawer" hidden>
-  <nav class="drawer__menu">
-    <button type="button" class="drawer__item">Studio</button>
-    <button type="button" class="drawer__item">Radio</button>
-    <button type="button" class="drawer__item">Portfolio</button>
-    <button type="button" class="drawer__item">Shop</button>
-    <button type="button" class="drawer__item">Card</button>
-  </nav>
-  <nav class="drawer__social">
-    <a href="https://instagram.com/bvrvn" target="_blank" rel="noopener noreferrer">Instagram</a>
-    <a href="https://x.com/BVRVNstudio" target="_blank" rel="noopener noreferrer">X</a>
-    <a href="https://tiktok.com/@.bvrvn" target="_blank" rel="noopener noreferrer">TikTok</a>
-  </nav>
-</div>
 
 <main class="page">
 

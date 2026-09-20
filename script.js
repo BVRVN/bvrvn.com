@@ -1,35 +1,43 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const topbar = document.querySelector(".topbar");
 const burger = document.querySelector(".burger");
-const drawer = document.getElementById("drawer");
+const panel = document.getElementById("panel");
 
-function setDrawer(open) {
+function setPanel(open) {
   burger.setAttribute("aria-expanded", String(open));
+  topbar.classList.toggle("is-open", open);
+
   if (open) {
-    drawer.hidden = false;
-    // Let the browser paint the hidden state once so the transition runs.
-    requestAnimationFrame(() => drawer.classList.add("is-open"));
+    panel.style.height = panel.scrollHeight + "px";
   } else {
-    drawer.classList.remove("is-open");
+    // Pin the current height first, otherwise the collapse has no start value
+    // to animate from once it has been left on auto.
+    panel.style.height = panel.scrollHeight + "px";
+    requestAnimationFrame(() => {
+      panel.style.height = "0px";
+    });
   }
 }
 
-burger.addEventListener("click", () => {
-  setDrawer(burger.getAttribute("aria-expanded") !== "true");
-});
-
-drawer.addEventListener("transitionend", (event) => {
-  if (event.propertyName === "opacity" && !drawer.classList.contains("is-open")) {
-    drawer.hidden = true;
+// Once expanded, hand the height back to the content so rotating the phone
+// or a longer word cannot clip the panel.
+panel.addEventListener("transitionend", (event) => {
+  if (event.propertyName === "height" && topbar.classList.contains("is-open")) {
+    panel.style.height = "auto";
   }
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") setDrawer(false);
+burger.addEventListener("click", () => {
+  setPanel(burger.getAttribute("aria-expanded") !== "true");
 });
 
-drawer.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => setDrawer(false));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setPanel(false);
+});
+
+panel.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setPanel(false));
 });
 
 const suffix = document.querySelector(".topbar__suffix");
@@ -64,9 +72,9 @@ async function retype(word) {
   }
 }
 
-document.querySelectorAll(".menu__item, .drawer__item").forEach((item) => {
+document.querySelectorAll(".menu__item, .panel__item").forEach((item) => {
   item.addEventListener("click", () => {
-    setDrawer(false);
+    setPanel(false);
     if (item.textContent !== suffix.textContent) retype(item.textContent);
   });
 });
