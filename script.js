@@ -31,3 +31,12 @@ document.addEventListener("keydown", (event) => {
 drawer.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setDrawer(false));
 });
+
+const suffix = document.querySelector(".topbar__suffix");
+
+document.querySelectorAll(".menu__item, .drawer__item").forEach((item) => {
+  item.addEventListener("click", () => {
+    suffix.textContent = item.textContent;
+    setDrawer(false);
+  });
+});

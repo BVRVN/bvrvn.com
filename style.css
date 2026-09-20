@@ -278,6 +278,24 @@ body {
   margin-top: 0.06em;
 }
 
+.menu__item,
+.drawer__item {
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.menu__item:hover,
+.menu__item:focus-visible,
+.drawer__item:hover,
+.drawer__item:focus-visible {
+  opacity: 0.45;
+}
+
 .menu__item {
   font-size: clamp(30px, 8.4vw, 76px);
 }
