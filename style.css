@@ -229,7 +229,7 @@ body {
 
 .page--top .photo {
   width: clamp(84px, 20vw, 175px);
-  align-self: flex-end;
+  margin-left: clamp(16px, 4vw, 40px);
 }
 
 @keyframes rise {
