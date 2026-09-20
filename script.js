@@ -34,9 +34,32 @@ drawer.querySelectorAll("a").forEach((link) => {
 
 const suffix = document.querySelector(".topbar__suffix");
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Bumped on every request so a run started earlier bails out instead of
+// fighting the newer one for the same element.
+let typingRun = 0;
+
+async function retype(word) {
+  const run = ++typingRun;
+  const current = suffix.textContent;
+
+  for (let i = current.length - 1; i >= 0; i--) {
+    if (run !== typingRun) return;
+    suffix.textContent = current.slice(0, i);
+    await wait(40);
+  }
+
+  for (let i = 1; i <= word.length; i++) {
+    if (run !== typingRun) return;
+    suffix.textContent = word.slice(0, i);
+    await wait(70);
+  }
+}
+
 document.querySelectorAll(".menu__item, .drawer__item").forEach((item) => {
   item.addEventListener("click", () => {
-    suffix.textContent = item.textContent;
     setDrawer(false);
+    if (item.textContent !== suffix.textContent) retype(item.textContent);
   });
 });
