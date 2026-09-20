@@ -69,7 +69,7 @@ body {
 }
 
 .topbar__logo {
-  height: clamp(18px, 2.6vw, 30px);
+  height: clamp(17px, 2.3vw, 26px);
   width: auto;
   display: block;
   transform: translateX(-4px);
