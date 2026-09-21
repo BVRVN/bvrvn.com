@@ -229,7 +229,7 @@ body {
 
 .mining {
   align-self: center;
-  width: clamp(132px, 26vw, 220px);
+  width: clamp(88px, 13vw, 132px);
 }
 
 .mining img {
