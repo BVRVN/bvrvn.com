@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 34 132 98" width="132" height="98" role="img" aria-label="Travaux en cours">
+<style>
+  rect { shape-rendering: crispEdges; }
+
+  /* Pivot sits at the butt of the handle, so the head swings down onto the
+     crate's top right corner. */
+  .pick {
+    transform-box: view-box;
+    transform-origin: 120px 92px;
+    animation: swing 1.15s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes swing {
+    0%    { transform: rotate(-5deg); }
+    38%   { transform: rotate(20deg); }
+    48%   { transform: rotate(-15deg); }
+    60%   { transform: rotate(-2deg); }
+    100%  { transform: rotate(-5deg); }
+  }
+
+  .chip {
+    transform-box: view-box;
+    opacity: 0;
+    animation: chip 1.15s linear infinite;
+  }
+
+  .chip--b { animation-delay: 0.03s; }
+  .chip--c { animation-delay: 0.06s; }
+
+  @keyframes chip {
+    0%, 46%   { opacity: 0; transform: translate(0, 0); }
+    49%       { opacity: 1; transform: translate(0, 0); }
+    64%       { opacity: 1; transform: translate(var(--dx), var(--dy)); }
+    74%, 100% { opacity: 0; transform: translate(var(--dx), calc(var(--dy) + 8px)); }
+  }
+
+  .crack {
+    opacity: 0;
+    animation: crack 1.15s steps(1, end) infinite;
+  }
+
+  @keyframes crack {
+    0%, 47%   { opacity: 0; }
+    49%, 100% { opacity: 1; }
+  }
+
+  .crate {
+    transform-box: view-box;
+    transform-origin: 52px 124px;
+    animation: thud 1.15s ease-out infinite;
+  }
+
+  @keyframes thud {
+    0%, 46%   { transform: scale(1, 1); }
+    50%       { transform: scale(1.05, 0.95); }
+    62%, 100% { transform: scale(1, 1); }
+  }
+</style>
+
+<!-- crate -->
+<g class="crate">
+  <rect x="20" y="60" width="64" height="64" fill="#8a5a2b"/>
+  <rect x="20" y="60" width="64" height="4" fill="#5e3a19"/>
+  <rect x="20" y="120" width="64" height="4" fill="#5e3a19"/>
+  <rect x="20" y="60" width="4" height="64" fill="#5e3a19"/>
+  <rect x="80" y="60" width="4" height="64" fill="#5e3a19"/>
+  <rect x="24" y="76" width="56" height="4" fill="#6b4520"/>
+  <rect x="24" y="104" width="56" height="4" fill="#6b4520"/>
+  <rect x="28" y="84" width="4" height="4" fill="#a97142"/>
+  <rect x="32" y="88" width="4" height="4" fill="#a97142"/>
+  <rect x="36" y="92" width="4" height="4" fill="#a97142"/>
+  <rect x="40" y="96" width="4" height="4" fill="#a97142"/>
+  <rect x="68" y="84" width="4" height="4" fill="#a97142"/>
+  <rect x="64" y="88" width="4" height="4" fill="#a97142"/>
+  <rect x="60" y="92" width="4" height="4" fill="#a97142"/>
+  <rect x="56" y="96" width="4" height="4" fill="#a97142"/>
+  <rect x="44" y="100" width="12" height="4" fill="#a97142"/>
+
+  <g class="crack" fill="#4a2c12">
+    <rect x="72" y="64" width="4" height="4"/>
+    <rect x="68" y="68" width="4" height="4"/>
+    <rect x="72" y="72" width="4" height="4"/>
+    <rect x="64" y="72" width="4" height="4"/>
+    <rect x="68" y="76" width="4" height="4"/>
+    <rect x="60" y="76" width="4" height="4"/>
+  </g>
+</g>
+
+<!-- pickaxe -->
+<g class="pick">
+  <rect x="88" y="52" width="8" height="8" fill="#6f6f6f"/>
+  <rect x="96" y="48" width="24" height="8" fill="#a8a8a8"/>
+  <rect x="96" y="56" width="24" height="4" fill="#7c7c7c"/>
+  <rect x="120" y="52" width="8" height="8" fill="#6f6f6f"/>
+  <rect x="104" y="60" width="8" height="8" fill="#8b5a2b"/>
+  <rect x="104" y="68" width="8" height="8" fill="#8b5a2b"/>
+  <rect x="108" y="76" width="8" height="8" fill="#7a4d24"/>
+  <rect x="112" y="84" width="8" height="8" fill="#7a4d24"/>
+</g>
+
+<!-- chips thrown off at impact -->
+<g fill="#a97142">
+  <rect class="chip" style="--dx:-16px; --dy:-18px" x="74" y="60" width="4" height="4"/>
+  <rect class="chip chip--b" style="--dx:8px; --dy:-22px" x="78" y="64" width="4" height="4"/>
+  <rect class="chip chip--c" style="--dx:-4px; --dy:-26px" x="70" y="58" width="4" height="4"/>
+</g>
+</svg>
