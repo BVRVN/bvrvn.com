@@ -73,11 +73,28 @@ async function retype(word) {
   }
 }
 
-// Sections with a page of their own are links and just navigate; the rest
-// only swap the word in the bar for now.
-document.querySelectorAll("button.menu__item, button.panel__item").forEach((item) => {
-  item.addEventListener("click", () => {
-    setPanel(false);
-    if (item.textContent !== suffix.textContent) retype(item.textContent);
-  });
-});
+// Sections are separate pages now, so the swap happens across a navigation.
+// Carrying the previous word over lets the bar erase it and type the new one
+// exactly as it did when the change was in-page.
+const WORD_KEY = "topbar-word";
+
+const remembered = (() => {
+  try {
+    return sessionStorage.getItem(WORD_KEY);
+  } catch {
+    return null;
+  }
+})();
+
+const word = suffix.textContent;
+
+if (remembered !== word) {
+  suffix.textContent = remembered || "";
+  retype(word);
+}
+
+try {
+  sessionStorage.setItem(WORD_KEY, word);
+} catch {
+  // Private browsing can refuse storage; the bar just skips the effect.
+}
