@@ -13,43 +13,27 @@
 </head>
 <body>
 
-<nav class="topbar">
-  <div class="topbar__row">
-    <div class="topbar__brand">
-      <a class="topbar__home" href="/" aria-label="Accueil">
-        <img draggable="false" src="/assets/logo.svg" alt="BARAN" class="topbar__logo">
-      </a>
-      <span class="topbar__suffix">Studio</span>
-    </div>
-    <a class="topbar__photo" href="/" aria-label="Accueil">
+<div class="shell">
+
+  <header class="head">
+    <a class="head__home" href="/" aria-label="Accueil">
+      <img draggable="false" src="/assets/logo.svg" alt="BARAN" class="head__logo">
+    </a>
+    <a class="head__photo" href="/" aria-label="Accueil">
       <img draggable="false" src="/assets/photo.jpg" alt="">
     </a>
+    <span class="head__word">Studio</span>
+  </header>
 
-    <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="panel">
-      <span class="burger__bar"></span>
-      <span class="burger__bar"></span>
-    </button>
-  </div>
+  <nav class="sections">
+    <a class="sections__item" href="/studio/">Studio</a>
+    <a class="sections__item" href="/radio/">Radio</a>
+    <a class="sections__item" href="/portfolio/">Portfolio</a>
+    <a class="sections__item" href="/shop/">Shop</a>
+    <a class="sections__item" href="/card/">Card</a>
+  </nav>
 
-  <div class="panel" id="panel">
-    <div class="panel__inner">
-      <nav class="panel__menu">
-        <a class="panel__item" href="/studio/">Studio</a>
-        <a class="panel__item" href="/radio/">Radio</a>
-        <a class="panel__item" href="/portfolio/">Portfolio</a>
-        <a class="panel__item" href="/shop/">Shop</a>
-        <a class="panel__item" href="/card/">Card</a>
-      </nav>
-      <nav class="panel__social">
-        <a href="https://instagram.com/bvrvn" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://x.com/BVRVNstudio" target="_blank" rel="noopener noreferrer">X</a>
-        <a href="https://tiktok.com/@.bvrvn" target="_blank" rel="noopener noreferrer">TikTok</a>
-      </nav>
-    </div>
-  </div>
-</nav>
-
-<main class="page page--top">
+  <main class="page">
 
   <div class="studio-head">
     <div class="photo">
@@ -62,6 +46,14 @@
   </div>
 
 </main>
+
+  <footer class="foot">
+    <a href="https://instagram.com/bvrvn" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://x.com/BVRVNstudio" target="_blank" rel="noopener noreferrer">X</a>
+    <a href="https://tiktok.com/@.bvrvn" target="_blank" rel="noopener noreferrer">TikTok</a>
+  </footer>
+
+</div>
 
 <script src="/script.js"></script>
 </body>

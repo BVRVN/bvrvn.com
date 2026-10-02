@@ -1,47 +1,4 @@
-const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
-
-const topbar = document.querySelector(".topbar");
-const burger = document.querySelector(".burger");
-const panel = document.getElementById("panel");
-
-function setPanel(open) {
-  burger.setAttribute("aria-expanded", String(open));
-  topbar.classList.toggle("is-open", open);
-
-  if (open) {
-    panel.style.height = panel.scrollHeight + "px";
-  } else {
-    // Pin the current height first, otherwise the collapse has no start value
-    // to animate from once it has been left on auto.
-    panel.style.height = panel.scrollHeight + "px";
-    requestAnimationFrame(() => {
-      panel.style.height = "0px";
-    });
-  }
-}
-
-// Once expanded, hand the height back to the content so rotating the phone
-// or a longer word cannot clip the panel.
-panel.addEventListener("transitionend", (event) => {
-  if (event.propertyName === "height" && topbar.classList.contains("is-open")) {
-    panel.style.height = "auto";
-  }
-});
-
-burger.addEventListener("click", () => {
-  setPanel(burger.getAttribute("aria-expanded") !== "true");
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") setPanel(false);
-});
-
-panel.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => setPanel(false));
-});
-
-const suffix = document.querySelector(".topbar__suffix");
+const word = document.querySelector(".head__word");
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -49,34 +6,34 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // fighting the newer one for the same element.
 let typingRun = 0;
 
-async function retype(word) {
+async function retype(next) {
   const run = ++typingRun;
-  const current = suffix.textContent;
-  suffix.classList.add("is-typing");
+  const current = word.textContent;
+  word.classList.add("is-typing");
 
   for (let i = current.length - 1; i >= 0; i--) {
     if (run !== typingRun) return;
-    suffix.textContent = current.slice(0, i);
+    word.textContent = current.slice(0, i);
     await wait(40);
   }
 
-  for (let i = 1; i <= word.length; i++) {
+  for (let i = 1; i <= next.length; i++) {
     if (run !== typingRun) return;
-    suffix.textContent = word.slice(0, i);
+    word.textContent = next.slice(0, i);
     await wait(70);
   }
 
   // A newer run owns the caret now, so only the last one clears it.
   if (run === typingRun) {
     await wait(450);
-    if (run === typingRun) suffix.classList.remove("is-typing");
+    if (run === typingRun) word.classList.remove("is-typing");
   }
 }
 
-// Sections are separate pages now, so the swap happens across a navigation.
-// Carrying the previous word over lets the bar erase it and type the new one
-// exactly as it did when the change was in-page.
-const WORD_KEY = "topbar-word";
+// Each section is its own page, so the swap happens across a navigation.
+// Carrying the previous word over lets the name erase itself and type the
+// new one on arrival.
+const WORD_KEY = "page-word";
 
 const remembered = (() => {
   try {
@@ -86,15 +43,15 @@ const remembered = (() => {
   }
 })();
 
-const word = suffix.textContent;
+const current = word.textContent;
 
-if (remembered !== word) {
-  suffix.textContent = remembered || "";
-  retype(word);
+if (remembered !== current) {
+  word.textContent = remembered || "";
+  retype(current);
 }
 
 try {
-  sessionStorage.setItem(WORD_KEY, word);
+  sessionStorage.setItem(WORD_KEY, current);
 } catch {
-  // Private browsing can refuse storage; the bar just skips the effect.
+  // Private browsing can refuse storage; the name just appears without the effect.
 }
