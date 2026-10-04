@@ -230,7 +230,7 @@ body {
 /* Where you are in the page, read against the left margin under the photo. */
 .progress {
   position: fixed;
-  left: var(--pad);
+  left: calc(var(--pad) + clamp(12px, 1.5vw, 20px));
   top: calc(var(--pad) + var(--photo-h) + clamp(16px, 2.2vw, 30px));
   bottom: var(--pad);
   width: 1px;
@@ -248,8 +248,9 @@ body {
 .progress__thumb {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 1px;
+  /* Heavier than the rail and centred on it. */
+  left: -0.5px;
+  width: 2px;
   background: var(--fg);
   will-change: transform;
 }
