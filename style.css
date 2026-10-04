@@ -125,9 +125,9 @@ body {
   height: auto;
   display: block;
   box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.13),
-    0 3px 6px rgba(0, 0, 0, 0.09),
-    0 12px 26px rgba(0, 0, 0, 0.07);
+    0 1px 2px rgba(0, 0, 0, 0.17),
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.10);
 }
 
 /* The bottom corners lift a hair off the surface, so the shadow pools there. */
@@ -139,8 +139,8 @@ body {
   bottom: 5%;
   width: 44%;
   height: 20%;
-  background: rgba(0, 0, 0, 0.21);
-  filter: blur(8px);
+  background: rgba(0, 0, 0, 0.27);
+  filter: blur(10px);
 }
 
 .head__photo::before {
