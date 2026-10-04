@@ -9,6 +9,9 @@
   --art-invert: 0;
   --pad: clamp(12px, 1.3vw, 16px);
   --photo-w: clamp(104px, 16.6vw, 300px);
+  --rail-gap: clamp(16px, 2.2vw, 30px);
+  --grow-from: 0.24;
+  --grow: 1.6s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
   --photo-h: calc(var(--photo-w) * 409 / 314);
 }
 
@@ -113,12 +116,23 @@ body {
    opens down and to the right without shifting anything around it. */
 .is-home .head__photo {
   transform-origin: top left;
-  animation: photo-grow 1s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
+  animation: photo-grow var(--grow);
 }
 
 @keyframes photo-grow {
-  from { transform: scale(0.24); }
+  from { transform: scale(var(--grow-from)); }
   to   { transform: scale(1); }
+}
+
+/* Shares the photo's timing and curve, so the gap between the two stays
+   constant while the photo opens and the rail gives up the room. */
+.is-home .progress {
+  animation: rail-follow var(--grow);
+}
+
+@keyframes rail-follow {
+  from { top: calc(var(--pad) + var(--photo-h) * var(--grow-from) + var(--rail-gap)); }
+  to   { top: calc(var(--pad) + var(--photo-h) + var(--rail-gap)); }
 }
 
 .head__photo {
@@ -248,7 +262,7 @@ body {
 .progress {
   position: fixed;
   left: calc(var(--pad) + clamp(12px, 1.5vw, 20px));
-  top: calc(var(--pad) + var(--photo-h) + clamp(16px, 2.2vw, 30px));
+  top: calc(var(--pad) + var(--photo-h) + var(--rail-gap));
   bottom: var(--pad);
   width: 1px;
   z-index: 9;
