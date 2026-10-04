@@ -58,6 +58,7 @@ body {
   gap: clamp(10px, 1.4vw, 15px);
   /* The header is fixed, so its space has to be held open here. */
   padding-top: calc(var(--photo-h) + clamp(10px, 1.4vw, 15px));
+  min-height: 260vh;
   opacity: 0;
   animation: rise 0.7s ease forwards 0.1s;
 }
@@ -226,8 +227,36 @@ body {
   opacity: 0.45;
 }
 
+/* Where you are in the page, read against the left margin under the photo. */
+.progress {
+  position: fixed;
+  left: var(--pad);
+  top: calc(var(--pad) + var(--photo-h) + clamp(16px, 2.2vw, 30px));
+  bottom: var(--pad);
+  width: 1px;
+  z-index: 9;
+}
+
+.progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  opacity: 0.16;
+}
+
+.progress__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  background: var(--fg);
+  will-change: transform;
+}
+
 .page {
-  flex: 1;
+  flex: none;
+  min-height: 55vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,6 +274,7 @@ body {
 }
 
 .foot {
+  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;

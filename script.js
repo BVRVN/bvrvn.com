@@ -81,3 +81,23 @@ themeButton.addEventListener("click", () => {
 
   showTheme();
 });
+
+const track = document.querySelector(".progress");
+const thumb = document.querySelector(".progress__thumb");
+
+function drawProgress() {
+  const doc = document.documentElement;
+  const scrollable = doc.scrollHeight - innerHeight;
+  const trackHeight = track.clientHeight;
+
+  // The thumb's length shows how much of the page one screen covers.
+  const height = Math.max(26, trackHeight * (innerHeight / doc.scrollHeight));
+  const travelled = scrollable > 0 ? scrollY / scrollable : 0;
+
+  thumb.style.height = height + "px";
+  thumb.style.transform = `translateY(${(trackHeight - height) * travelled}px)`;
+}
+
+drawProgress();
+addEventListener("scroll", drawProgress, { passive: true });
+addEventListener("resize", drawProgress);
