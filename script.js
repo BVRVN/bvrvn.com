@@ -55,3 +55,29 @@ try {
 } catch {
   // Private browsing can refuse storage; the name just appears without the effect.
 }
+
+const root = document.documentElement;
+const themeButton = document.querySelector(".theme");
+
+function showTheme() {
+  themeButton.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+}
+
+showTheme();
+
+themeButton.addEventListener("click", () => {
+  const dark = root.dataset.theme !== "dark";
+  if (dark) {
+    root.dataset.theme = "dark";
+  } else {
+    delete root.dataset.theme;
+  }
+
+  try {
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  } catch {
+    // Private browsing can refuse storage; the choice just lasts this page.
+  }
+
+  showTheme();
+});

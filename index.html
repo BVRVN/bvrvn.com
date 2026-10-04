@@ -10,6 +10,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
+<script>
+  // Runs before the first paint so a dark visitor never sees a white flash.
+  (() => {
+    let saved = null;
+    try { saved = localStorage.getItem("theme"); } catch {}
+    const dark = saved ? saved === "dark"
+                       : matchMedia("(prefers-color-scheme: dark)").matches;
+    if (dark) document.documentElement.dataset.theme = "dark";
+  })();
+</script>
 </head>
 <body>
 
@@ -25,10 +35,18 @@
       </a>
       <span class="head__word">Studio</span>
     </div>
-    <nav class="sections">
-      <a class="sections__item" href="/work/">Work</a>
-      <a class="sections__item" href="/radio/">Radio</a>
-    </nav>
+    <div class="head__right">
+      <nav class="sections">
+        <a class="sections__item" href="/work/">Work</a>
+        <a class="sections__item" href="/radio/">Radio</a>
+      </nav>
+      <button class="theme" type="button" aria-label="Changer l'apparence" aria-pressed="false">
+        <svg class="theme__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M12 2.75A9.25 9.25 0 0 1 12 21.25Z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <main class="page">

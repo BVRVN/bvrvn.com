@@ -3,6 +3,19 @@
   --fg: #0a0a0a;
   --muted: #8a8a8a;
   --ink: #02091e;
+  /* The paper texture is light, so dark mode multiplies it into the base
+     colour instead of swapping it out — the grain survives. */
+  --texture-blend: normal;
+  --art-invert: 0;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --fg: #f2f1ee;
+  --muted: #76746f;
+  --ink: #e9eaf0;
+  --texture-blend: multiply;
+  --art-invert: 1;
 }
 
 * {
@@ -25,7 +38,9 @@ html, body {
 
 body {
   background: var(--bg) url("assets/bg-texture.jpg") center center / cover no-repeat;
+  background-blend-mode: var(--texture-blend);
   color: var(--fg);
+  transition: background-color 0.35s ease, color 0.35s ease;
   font-family: "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   display: flex;
@@ -73,6 +88,7 @@ body {
   height: clamp(11.5px, 1.25vw, 14.6px);
   width: auto;
   display: block;
+  filter: invert(var(--art-invert));
 }
 
 .head__photo {
@@ -145,8 +161,36 @@ body {
   50%, 100% { opacity: 0; }
 }
 
-.sections {
+.head__right {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.3vw, 15px);
+}
+
+.theme {
+  display: block;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.theme:hover,
+.theme:focus-visible {
+  opacity: 0.45;
+}
+
+.theme__icon {
+  display: block;
+  width: clamp(13px, 1.4vw, 16px);
+  height: clamp(13px, 1.4vw, 16px);
+}
+
+.sections {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -183,6 +227,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  filter: invert(var(--art-invert));
 }
 
 .foot {
@@ -219,7 +264,7 @@ body {
   }
 
   .head__brand,
-  .sections {
+  .head__right {
     grid-column: 2;
     justify-self: start;
     justify-content: flex-start;
