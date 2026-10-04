@@ -109,6 +109,18 @@ body {
   filter: brightness(0) invert(1);
 }
 
+/* Grows into place from its top left corner on the landing page, so it
+   opens down and to the right without shifting anything around it. */
+.is-home .head__photo {
+  transform-origin: top left;
+  animation: photo-grow 1s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
+}
+
+@keyframes photo-grow {
+  from { transform: scale(0.24); }
+  to   { transform: scale(1); }
+}
+
 .head__photo {
   position: fixed;
   top: var(--pad);
