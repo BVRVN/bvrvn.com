@@ -81,7 +81,7 @@ body {
 }
 
 .head__photo img {
-  height: clamp(96px, 15.5vw, 170px);
+  height: clamp(112px, 18vw, 200px);
   width: auto;
   display: block;
 }
