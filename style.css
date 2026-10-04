@@ -29,14 +29,12 @@ body {
   font-family: "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   display: flex;
-  justify-content: center;
   min-height: 100svh;
   padding: clamp(22px, 4vw, 44px) clamp(20px, 3vw, 40px);
 }
 
 .shell {
   width: 100%;
-  max-width: 760px;
   display: flex;
   flex-direction: column;
   gap: clamp(20px, 4vw, 36px);
