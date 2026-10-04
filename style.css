@@ -59,7 +59,7 @@ body {
 }
 
 .head__logo {
-  height: clamp(11px, 1.2vw, 14px);
+  height: clamp(11.5px, 1.25vw, 14.6px);
   width: auto;
   display: block;
 }
