@@ -8,8 +8,8 @@
   --texture-blend: normal;
   --art-invert: 0;
   --pad: clamp(12px, 1.3vw, 16px);
-  --photo-h: clamp(112px, 18vw, 200px);
-  --photo-w: calc(var(--photo-h) * 314 / 409);
+  --photo-w: clamp(104px, 16.6vw, 300px);
+  --photo-h: calc(var(--photo-w) * 409 / 314);
 }
 
 [data-theme="dark"] {
@@ -121,8 +121,8 @@ body {
    fainter layers. One big blur would read as a smudge on this near-white
    background. */
 .head__photo img {
-  height: var(--photo-h);
-  width: auto;
+  width: var(--photo-w);
+  height: auto;
   display: block;
   box-shadow:
     0 1px 1px rgba(0, 0, 0, 0.13),
