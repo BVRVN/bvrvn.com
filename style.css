@@ -34,18 +34,17 @@ img {
   user-select: none;
 }
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  /* Stops the rubber-band from exposing the canvas past the texture. */
-  overscroll-behavior: none;
-}
-
 html {
   background: var(--bg);
+  /* Stops the rubber-band from exposing the canvas past the texture. */
+  overscroll-behavior-y: none;
 }
 
 body {
+  max-width: 100%;
+  /* clip, not hidden: hidden would turn the body into a second scroll
+     container nested in the page's own, which jams the wheel. */
+  overflow-x: clip;
   background: var(--bg) url("assets/bg-texture.jpg") center center / cover no-repeat;
   background-blend-mode: var(--texture-blend);
   color: var(--fg);
