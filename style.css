@@ -1,5 +1,5 @@
 :root {
-  --bg: #ffffff;
+  --bg: #ececec;
   --fg: #0a0a0a;
   --muted: #8a8a8a;
   --ink: #02091e;
@@ -37,6 +37,12 @@ img {
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+  /* Stops the rubber-band from exposing the canvas past the texture. */
+  overscroll-behavior: none;
+}
+
+html {
+  background: var(--bg);
 }
 
 body {
