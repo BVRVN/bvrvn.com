@@ -14,7 +14,10 @@
      inverses of each other. */
   --photo-w: calc(var(--photo-big) * var(--grow-from));
   --rail-gap: clamp(16px, 2.2vw, 30px);
-  --grow: 1.6s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
+  --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
+  --grow-in: 1.6s var(--ease) 0.5s both;
+  --grow-out: 1.6s var(--ease) 0.15s both;
+  --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
   --photo-small-h: calc(var(--photo-big) * var(--grow-from) * 409 / 314);
 }
@@ -34,6 +37,7 @@ body.is-home {
   --ink: #e9eaf0;
   --texture-blend: multiply;
   --art-invert: 1;
+  --veil: rgba(18, 18, 18, 0.62);
 }
 
 * {
@@ -131,7 +135,7 @@ body {
    opens down and to the right without shifting anything around it. */
 .is-home .head__photo {
   transform-origin: top left;
-  animation: photo-grow var(--grow);
+  animation: photo-grow var(--grow-in);
 }
 
 @keyframes photo-grow {
@@ -142,12 +146,12 @@ body {
 /* Shares the photo's timing and curve, so the gap between the two stays
    constant while the photo opens and the rail gives up the room. */
 .is-home .progress {
-  animation: rail-follow var(--grow);
+  animation: rail-follow var(--grow-in);
 }
 
 [data-from-studio] .head__photo {
   transform-origin: top left;
-  animation: photo-shrink var(--grow);
+  animation: photo-shrink var(--grow-out);
 }
 
 @keyframes photo-shrink {
@@ -156,7 +160,7 @@ body {
 }
 
 [data-from-studio] .progress {
-  animation: rail-follow-back var(--grow);
+  animation: rail-follow-back var(--grow-out);
 }
 
 @keyframes rail-follow-back {
@@ -378,4 +382,31 @@ body {
   .head__right {
     grid-column: 2;
   }
+}
+
+/* Opening veil: the site is revealed as it slides away, which is the moment
+   the photo starts growing. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: var(--veil);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+  animation: intro-lift 0.9s cubic-bezier(0.76, 0, 0.24, 1) 0.45s both;
+}
+
+@keyframes intro-lift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-101%); }
+}
+
+.intro__logo {
+  width: clamp(130px, 18vw, 230px);
+  height: auto;
+  display: block;
+  filter: invert(var(--art-invert));
 }
