@@ -16,6 +16,7 @@
   --rail-gap: clamp(16px, 2.2vw, 30px);
   --grow: 1.6s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
   --photo-h: calc(var(--photo-w) * 409 / 314);
+  --photo-small-h: calc(var(--photo-big) * var(--grow-from) * 409 / 314);
 }
 
 /* The large format belongs to the landing page. Both values are restated
@@ -92,8 +93,9 @@ body {
    light areas and leaves it white over dark ones. */
 .head {
   position: fixed;
-  /* Sits on the photo's middle rather than its top edge. */
-  top: calc(var(--pad) + var(--photo-h) / 2);
+  /* Fixed on the reduced photo's midline, the same on every page, so it
+     never moves while the photo grows or folds back. */
+  top: calc(var(--pad) + var(--photo-small-h) / 2);
   transform: translateY(-50%);
   left: var(--pad);
   right: var(--pad);
@@ -151,24 +153,6 @@ body {
 @keyframes photo-shrink {
   from { transform: scale(calc(1 / var(--grow-from))); }
   to   { transform: scale(1); }
-}
-
-.is-home .head {
-  animation: head-follow var(--grow);
-}
-
-@keyframes head-follow {
-  from { top: calc(var(--pad) + var(--photo-h) * var(--grow-from) / 2); }
-  to   { top: calc(var(--pad) + var(--photo-h) / 2); }
-}
-
-[data-from-studio] .head {
-  animation: head-follow-back var(--grow);
-}
-
-@keyframes head-follow-back {
-  from { top: calc(var(--pad) + var(--photo-h) / var(--grow-from) / 2); }
-  to   { top: calc(var(--pad) + var(--photo-h) / 2); }
 }
 
 [data-from-studio] .progress {
