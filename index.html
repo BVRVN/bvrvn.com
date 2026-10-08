@@ -18,6 +18,16 @@
     const dark = saved ? saved === "dark"
                        : matchMedia("(prefers-color-scheme: dark)").matches;
     if (dark) document.documentElement.dataset.theme = "dark";
+
+    // The veil belongs to a genuine arrival on the site. Coming back to this
+    // page from Work or Radio, a word is already remembered, so it is skipped.
+    try {
+      if (!sessionStorage.getItem("page-word")) {
+        document.documentElement.dataset.veil = "";
+      }
+    } catch {
+      document.documentElement.dataset.veil = "";
+    }
   })();
 </script>
 </head>

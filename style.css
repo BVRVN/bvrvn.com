@@ -15,7 +15,8 @@
   --photo-w: calc(var(--photo-big) * var(--grow-from));
   --rail-gap: clamp(16px, 2.2vw, 30px);
   --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
-  --grow-in: 1.6s var(--ease) 1.6s both;
+  --grow-in: 1.6s var(--ease) 0.15s both;
+  --grow-veiled: 1.6s var(--ease) 1.45s both;
   --grow-out: 1.6s var(--ease) 0.15s both;
   --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
@@ -147,6 +148,16 @@ body {
    constant while the photo opens and the rail gives up the room. */
 .is-home .progress {
   animation: rail-follow var(--grow-in);
+}
+
+/* Behind the veil the opening holds until it has cleared. Declared after the
+   plain case so it wins on equal specificity. */
+[data-veil] .head__photo {
+  animation: photo-grow var(--grow-veiled);
+}
+
+[data-veil] .progress {
+  animation: rail-follow var(--grow-veiled);
 }
 
 [data-from-studio] .head__photo {
@@ -387,6 +398,10 @@ body {
 /* Opening veil: the site is revealed as it slides away, which is the moment
    the photo starts growing. */
 .intro {
+  display: none;
+}
+
+[data-veil] .intro {
   position: fixed;
   inset: 0;
   z-index: 50;
