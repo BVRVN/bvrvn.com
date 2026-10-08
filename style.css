@@ -354,47 +354,6 @@ body {
   filter: invert(var(--art-invert));
 }
 
-.foot {
-  margin-top: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.foot a {
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.foot a:hover,
-.foot a:focus-visible {
-  color: var(--fg);
-}
-
-/* Three columns do not fit beside a profile-sized photo on a phone, so the
-   brand and sections stack to its right. */
-@media (max-width: 620px) {
-  .head {
-    grid-template-columns: 1fr auto;
-    row-gap: 6px;
-  }
-
-  .head__brand {
-    grid-column: 1;
-    justify-self: start;
-    /* Starts past the fixed photo rather than running underneath it. */
-    margin-left: calc(var(--photo-w) + 12px);
-  }
-
-  .head__right {
-    grid-column: 2;
-  }
-}
-
 /* Opening veil: the site is revealed as it slides away, which is the moment
    the photo starts growing. */
 .intro {
