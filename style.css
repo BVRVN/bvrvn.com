@@ -92,7 +92,9 @@ body {
    light areas and leaves it white over dark ones. */
 .head {
   position: fixed;
-  top: var(--pad);
+  /* Sits on the photo's middle rather than its top edge. */
+  top: calc(var(--pad) + var(--photo-h) / 2);
+  transform: translateY(-50%);
   left: var(--pad);
   right: var(--pad);
   z-index: 10;
@@ -149,6 +151,24 @@ body {
 @keyframes photo-shrink {
   from { transform: scale(calc(1 / var(--grow-from))); }
   to   { transform: scale(1); }
+}
+
+.is-home .head {
+  animation: head-follow var(--grow);
+}
+
+@keyframes head-follow {
+  from { top: calc(var(--pad) + var(--photo-h) * var(--grow-from) / 2); }
+  to   { top: calc(var(--pad) + var(--photo-h) / 2); }
+}
+
+[data-from-studio] .head {
+  animation: head-follow-back var(--grow);
+}
+
+@keyframes head-follow-back {
+  from { top: calc(var(--pad) + var(--photo-h) / var(--grow-from) / 2); }
+  to   { top: calc(var(--pad) + var(--photo-h) / 2); }
 }
 
 [data-from-studio] .progress {
