@@ -21,6 +21,9 @@
   --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
   --photo-small-h: calc(var(--photo-big) * var(--grow-from) * 409 / 314);
+  /* How many screens tall a page is. The thumb reads it too, so it is the
+     right length on the first paint instead of popping in once script runs. */
+  --page-screens: 2.6;
 }
 
 /* The large format belongs to the landing page. Both values are restated
@@ -83,7 +86,7 @@ body {
   gap: clamp(10px, 1.4vw, 15px);
   /* The header is fixed, so its space has to be held open here. */
   padding-top: calc(var(--photo-h) + clamp(10px, 1.4vw, 15px));
-  min-height: 260vh;
+  min-height: calc(var(--page-screens) * 100svh);
   opacity: 0;
   animation: rise 0.7s ease forwards 0.1s;
 }
@@ -331,6 +334,7 @@ body {
   /* Heavier than the rail and centred on it. */
   left: -0.5px;
   width: 2px;
+  height: calc(100% / var(--page-screens));
   background: var(--fg);
   will-change: transform;
 }
