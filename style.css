@@ -8,10 +8,12 @@
   --texture-blend: normal;
   --art-invert: 0;
   --pad: clamp(12px, 1.3vw, 16px);
-  /* Resting size, used everywhere but the landing page. */
-  --photo-w: clamp(26px, 4vw, 72px);
-  --rail-gap: clamp(16px, 2.2vw, 30px);
+  --photo-big: clamp(104px, 16.6vw, 300px);
   --grow-from: 0.24;
+  /* Resting size, derived from the large one so the two animations are exact
+     inverses of each other. */
+  --photo-w: calc(var(--photo-big) * var(--grow-from));
+  --rail-gap: clamp(16px, 2.2vw, 30px);
   --grow: 1.6s cubic-bezier(0.22, 0.75, 0.2, 1) 0.15s both;
   --photo-h: calc(var(--photo-w) * 409 / 314);
 }
@@ -20,7 +22,7 @@
    together: a custom property resolves against the element it is declared
    on, so redefining only the width would leave the height behind. */
 body.is-home {
-  --photo-w: clamp(104px, 16.6vw, 300px);
+  --photo-w: var(--photo-big);
   --photo-h: calc(var(--photo-w) * 409 / 314);
 }
 
@@ -137,6 +139,25 @@ body {
    constant while the photo opens and the rail gives up the room. */
 .is-home .progress {
   animation: rail-follow var(--grow);
+}
+
+[data-from-studio] .head__photo {
+  transform-origin: top left;
+  animation: photo-shrink var(--grow);
+}
+
+@keyframes photo-shrink {
+  from { transform: scale(calc(1 / var(--grow-from))); }
+  to   { transform: scale(1); }
+}
+
+[data-from-studio] .progress {
+  animation: rail-follow-back var(--grow);
+}
+
+@keyframes rail-follow-back {
+  from { top: calc(var(--pad) + var(--photo-h) / var(--grow-from) + var(--rail-gap)); }
+  to   { top: calc(var(--pad) + var(--photo-h) + var(--rail-gap)); }
 }
 
 @keyframes rail-follow {

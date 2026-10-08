@@ -18,6 +18,14 @@
     const dark = saved ? saved === "dark"
                        : matchMedia("(prefers-color-scheme: dark)").matches;
     if (dark) document.documentElement.dataset.theme = "dark";
+
+    // Arriving from the landing page: the photo folds back down, so the flag
+    // has to be set before anything is painted.
+    try {
+      if (sessionStorage.getItem("page-word") === "Studio") {
+        document.documentElement.dataset.fromStudio = "";
+      }
+    } catch {}
   })();
 </script>
 </head>
