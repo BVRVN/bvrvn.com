@@ -240,9 +240,23 @@ body {
   letter-spacing: -0.07em;
   color: inherit;
   white-space: nowrap;
+  /* The slot holds this page's word so the box never resizes while the text
+     is being retyped, which would otherwise shove the logo sideways. */
+  position: relative;
+  display: inline-block;
 }
 
-.head__word.is-typing::after {
+.head__word__slot {
+  visibility: hidden;
+}
+
+.head__word__live {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.head__word__live.is-typing::after {
   content: "";
   display: inline-block;
   width: 0.07em;

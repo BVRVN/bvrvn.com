@@ -1,4 +1,4 @@
-const word = document.querySelector(".head__word");
+const word = document.querySelector(".head__word__live");
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
