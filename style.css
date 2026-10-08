@@ -116,12 +116,13 @@ body {
   mix-blend-mode: difference;
 }
 
+/* Only the logo sits in this box, so the centred position never depends on
+   the length of the page's name. */
 .head__brand {
   grid-column: 2;
   justify-self: center;
-  display: flex;
-  align-items: center;
-  gap: clamp(3px, 0.4vw, 5px);
+  position: relative;
+  display: block;
 }
 
 .head__home {
@@ -240,23 +241,16 @@ body {
   letter-spacing: -0.07em;
   color: inherit;
   white-space: nowrap;
-  /* The slot holds this page's word so the box never resizes while the text
-     is being retyped, which would otherwise shove the logo sideways. */
-  position: relative;
-  display: inline-block;
-}
-
-.head__word__slot {
-  visibility: hidden;
-}
-
-.head__word__live {
+  /* Hangs off the logo instead of sharing its box, so neither this page's
+     word nor the one being typed over it can move the logo. */
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: clamp(3px, 0.4vw, 5px);
 }
 
-.head__word__live.is-typing::after {
+.head__word.is-typing::after {
   content: "";
   display: inline-block;
   width: 0.07em;
