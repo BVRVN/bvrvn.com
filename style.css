@@ -16,7 +16,7 @@
   --rail-gap: clamp(16px, 2.2vw, 30px);
   --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
   --grow-in: 1.6s var(--ease) 0.15s both;
-  --grow-veiled: 1.6s var(--ease) 3.6s both;
+  --grow-veiled: 1.6s var(--ease) 2.7s both;
   --grow-out: 1.6s var(--ease) 0.15s both;
   --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
@@ -393,7 +393,7 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   pointer-events: none;
-  animation: intro-lift 1.2s cubic-bezier(0.76, 0, 0.24, 1) 2.6s both;
+  animation: intro-lift 1s cubic-bezier(0.76, 0, 0.24, 1) 1.85s both;
 }
 
 @keyframes intro-lift {
@@ -402,6 +402,8 @@ body {
 }
 
 .intro__logo {
+  /* The strokes' timings in the markup add up to 2.2s; this scales them. */
+  --pen-pace: 0.7;
   width: clamp(150px, 20vw, 250px);
   height: auto;
   display: block;
@@ -428,9 +430,9 @@ body {
      its turn, so each one stays hidden until the pen touches down. */
   opacity: 0;
   animation:
-    pen-write var(--d) linear forwards,
+    pen-write calc(var(--d) * var(--pen-pace)) linear forwards,
     pen-down 0.01s linear forwards;
-  animation-delay: calc(0.25s + var(--t));
+  animation-delay: calc(0.2s + var(--t) * var(--pen-pace));
 }
 
 /* The pen is kept close to the letters' own width so its tip reads as round;
@@ -438,7 +440,7 @@ body {
    hairline the pen may have missed along an edge. */
 .pen-seal {
   opacity: 0;
-  animation: pen-down 0.12s linear 2.45s forwards;
+  animation: pen-down 0.12s linear 1.74s forwards;
 }
 
 @keyframes pen-down {
