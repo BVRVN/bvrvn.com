@@ -175,7 +175,7 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   shine.className = "head__shine";
   photo.append(shine);
 
-  const MAX_TILT = 9;
+  const MAX_TILT = 6.5;
 
   photo.addEventListener("mousemove", (event) => {
     // Measured on the link: unlike the picture, it is never tilted, so the
