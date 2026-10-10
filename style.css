@@ -130,7 +130,7 @@ body {
 }
 
 .head__logo {
-  height: clamp(11.5px, 1.25vw, 14.6px);
+  height: clamp(12.7px, 1.38vw, 16.1px);
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
@@ -236,7 +236,7 @@ body {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   /* Inter's cap height is 0.7495em, so this lands the capital exactly on the
      logo's height at every viewport width. */
-  font-size: clamp(14.7px, 1.6vw, 18.7px);
+  font-size: clamp(16.2px, 1.76vw, 20.6px);
   font-weight: 500;
   letter-spacing: -0.07em;
   color: inherit;
