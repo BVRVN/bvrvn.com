@@ -567,3 +567,41 @@ body {
 .head__photo.is-lit .head__shine {
   opacity: 1;
 }
+
+/* The header logo rewrites itself under the pointer. At rest every stroke is
+   already laid down and the outline is fully uncovered, so nothing differs
+   from the plain image; the pen only takes over while .is-writing is set. */
+.repen {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 27;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+}
+
+.repen-seal {
+  fill: #fff;
+}
+
+.is-writing .repen-seal {
+  opacity: 0;
+}
+
+/* Half the veil's duration: a flick of the wrist rather than a signature. */
+.is-writing .repen {
+  animation:
+    repen-write calc(var(--d) * 0.5) linear both,
+    repen-down 0.01s linear both;
+  animation-delay: calc(var(--t) * 0.5);
+}
+
+@keyframes repen-write {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes repen-down {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
