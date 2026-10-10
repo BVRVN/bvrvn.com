@@ -469,10 +469,10 @@ body {
 .cursor::before {
   content: "";
   position: absolute;
-  top: -7px;
-  left: -7px;
-  width: 14px;
-  height: 14px;
+  top: -5.5px;
+  left: -5.5px;
+  width: 11px;
+  height: 11px;
   border: 1px solid #fff;
   transition: transform 0.25s var(--ease);
 }
