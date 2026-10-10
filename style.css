@@ -454,12 +454,13 @@ body {
   left: 0;
   z-index: 100;
   pointer-events: none;
-  /* Same trick as the header: white under difference blending stays visible
-     over the paper, the photo and the dark theme alike. */
+  /* Same trick as the header: white under difference blending comes out as
+     the inverse of whatever lies beneath, on the paper, the photo and the
+     dark theme alike. No will-change here: promoting the layer makes WebKit
+     drop the blending. */
   mix-blend-mode: difference;
   opacity: 0;
   transition: opacity 0.2s ease;
-  will-change: transform;
 }
 
 .cursor.is-visible {
@@ -468,7 +469,7 @@ body {
 
 /* Four corners that meet into a square at rest. Over anything clickable the
    square turns onto its point and each corner flips over as it pulls away,
-   leaving four arrowheads aimed at a dot: a game reticle locking on. */
+   leaving four arrowheads aimed at the centre: a game reticle locking on. */
 .cursor__shape {
   position: absolute;
   top: -5.5px;
@@ -489,13 +490,6 @@ body {
   transition: transform 0.35s var(--ease);
 }
 
-.cursor__dot {
-  fill: #fff;
-  stroke: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
 .cursor.is-over .cursor__shape {
   transform: rotate(45deg);
 }
@@ -503,8 +497,4 @@ body {
 .cursor.is-over .cursor__corner {
   /* Flipped as it moves out, so its point ends up aimed at the centre. */
   transform: translate(calc(var(--x) * 3.5px), calc(var(--y) * 3.5px)) rotate(180deg);
-}
-
-.cursor.is-over .cursor__dot {
-  opacity: 1;
 }

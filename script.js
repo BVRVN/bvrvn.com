@@ -114,13 +114,12 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
       <polyline class="cursor__corner" style="--x:1;--y:-1" points="5.5,0.5 10.5,0.5 10.5,5.5"/>
       <polyline class="cursor__corner" style="--x:1;--y:1" points="10.5,5.5 10.5,10.5 5.5,10.5"/>
       <polyline class="cursor__corner" style="--x:-1;--y:1" points="5.5,10.5 0.5,10.5 0.5,5.5"/>
-      <circle class="cursor__dot" cx="5.5" cy="5.5" r="0.9"/>
     </svg>`;
   document.body.append(cursor);
   root.classList.add("has-cursor");
 
   addEventListener("mousemove", (event) => {
-    cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+    cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
     cursor.classList.add("is-visible");
     cursor.classList.toggle("is-over", Boolean(event.target.closest("a, button")));
   }, { passive: true });
