@@ -517,3 +517,53 @@ body {
   /* Flipped as it moves out, so its point ends up aimed at the centre. */
   transform: translate(calc(var(--x) * 3.5px), calc(var(--y) * 3.5px)) rotate(180deg);
 }
+
+/* Focus effect borrowed from tvOS: under the pointer the print lifts off the
+   page, leans with it, and a soft glare slides across its surface. The tilt
+   lives on the picture, not the link, so it never fights the grow and shrink
+   animations that own the link's transform. */
+.head__photo img,
+.head__shine {
+  transform:
+    perspective(600px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    scale(var(--lift, 1));
+  transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease), opacity 0.4s ease;
+}
+
+.head__shine {
+  position: absolute;
+  inset: 0;
+  /* Lets the pointer through, so the picture itself stays what is hovered. */
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 0%),
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.12) 38%,
+    rgba(255, 255, 255, 0) 68%
+  );
+  opacity: 0;
+}
+
+.head__photo.is-lit {
+  --lift: 1.06;
+}
+
+/* Quick while it is being steered, slow when it settles back. */
+.head__photo.is-lit img,
+.head__photo.is-lit .head__shine {
+  transition-duration: 0.18s, 0.4s, 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.head__photo.is-lit img {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.16),
+    0 10px 20px rgba(0, 0, 0, 0.16),
+    0 28px 56px rgba(0, 0, 0, 0.18);
+}
+
+.head__photo.is-lit .head__shine {
+  opacity: 1;
+}

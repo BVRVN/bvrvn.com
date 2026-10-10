@@ -167,3 +167,34 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   // Leaving the window would otherwise park the square on the edge.
   document.addEventListener("mouseleave", () => cursor.classList.remove("is-visible"));
 }
+
+// The photo answers the pointer the way a tvOS poster answers the remote.
+if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  const photo = document.querySelector(".head__photo");
+  const shine = document.createElement("span");
+  shine.className = "head__shine";
+  photo.append(shine);
+
+  const MAX_TILT = 9;
+
+  photo.addEventListener("mousemove", (event) => {
+    // Measured on the link: unlike the picture, it is never tilted, so the
+    // reading does not drift as the picture leans.
+    const box = photo.getBoundingClientRect();
+    const x = Math.min(1, Math.max(0, (event.clientX - box.left) / box.width));
+    const y = Math.min(1, Math.max(0, (event.clientY - box.top) / box.height));
+
+    // The side under the pointer sinks, as if pressed.
+    photo.style.setProperty("--tilt-x", `${(0.5 - y) * 2 * MAX_TILT}deg`);
+    photo.style.setProperty("--tilt-y", `${(x - 0.5) * 2 * MAX_TILT}deg`);
+    photo.style.setProperty("--glare-x", `${x * 100}%`);
+    photo.style.setProperty("--glare-y", `${y * 100}%`);
+    photo.classList.add("is-lit");
+  });
+
+  photo.addEventListener("mouseleave", () => {
+    photo.classList.remove("is-lit");
+    photo.style.setProperty("--tilt-x", "0deg");
+    photo.style.setProperty("--tilt-y", "0deg");
+  });
+}
