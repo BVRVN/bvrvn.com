@@ -406,12 +406,32 @@ body {
    normalised to length 1 so a single dash covers it. */
 .pen {
   stroke: #fff;
-  stroke-width: 31;
+  stroke-width: 27;
+  /* Round like the letterforms themselves, so the line advances with the
+     same soft tip the finished logo ends on. */
+  stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: pen-write var(--d) linear forwards;
+  /* A round cap would leave a dot at the start of every line still waiting
+     its turn, so each one stays hidden until the pen touches down. */
+  opacity: 0;
+  animation:
+    pen-write var(--d) linear forwards,
+    pen-down 0.01s linear forwards;
   animation-delay: calc(0.25s + var(--t));
+}
+
+/* The pen is kept close to the letters' own width so its tip reads as round;
+   once the last stroke lands, the whole outline is uncovered to catch the
+   hairline the pen may have missed along an edge. */
+.pen-seal {
+  opacity: 0;
+  animation: pen-down 0.12s linear 2.45s forwards;
+}
+
+@keyframes pen-down {
+  to { opacity: 1; }
 }
 
 @keyframes pen-write {
