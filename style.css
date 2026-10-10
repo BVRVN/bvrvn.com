@@ -467,8 +467,8 @@ body {
 }
 
 /* Four corners that meet into a square at rest. Over anything clickable the
-   square turns onto its point and the corners pull apart around a dot: a
-   game reticle locking on. */
+   square turns onto its point and each corner flips over as it pulls away,
+   leaving four arrowheads aimed at a dot: a game reticle locking on. */
 .cursor__shape {
   position: absolute;
   top: -5.5px;
@@ -483,6 +483,9 @@ body {
 }
 
 .cursor__corner {
+  /* Each corner turns about its own middle, not the square's. */
+  transform-box: fill-box;
+  transform-origin: center;
   transition: transform 0.35s var(--ease);
 }
 
@@ -498,7 +501,8 @@ body {
 }
 
 .cursor.is-over .cursor__corner {
-  transform: translate(calc(var(--x) * 2.5px), calc(var(--y) * 2.5px));
+  /* Flipped as it moves out, so its point ends up aimed at the centre. */
+  transform: translate(calc(var(--x) * 3.5px), calc(var(--y) * 3.5px)) rotate(180deg);
 }
 
 .cursor.is-over .cursor__dot {
