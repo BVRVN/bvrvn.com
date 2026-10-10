@@ -198,3 +198,22 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     photo.style.setProperty("--tilt-y", "0deg");
   });
 }
+
+// The logo's glint starts wherever the pointer first touches it.
+if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  const logo = document.querySelector(".head__logo");
+
+  logo.closest("a").addEventListener("mouseenter", (event) => {
+    const box = logo.getBoundingClientRect();
+    logo.style.setProperty("--glint-x", `${event.clientX - box.left}px`);
+    logo.style.setProperty("--glint-y", `${event.clientY - box.top}px`);
+
+    // Dropping the class and reading a layout value restarts the animation
+    // if the pointer comes back before the last glint has finished.
+    logo.classList.remove("is-glinting");
+    void logo.offsetWidth;
+    logo.classList.add("is-glinting");
+  });
+
+  logo.addEventListener("animationend", () => logo.classList.remove("is-glinting"));
+}

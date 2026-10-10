@@ -568,19 +568,30 @@ body {
   opacity: 1;
 }
 
-/* Under the pointer a band of light crosses the logo once, left to right,
-   the same glare that slides over the photo. The letters never leave: the
-   band only dims what it passes over, through a mask three times the logo's
-   width whose solid ends are all that show at rest. */
-@media (hover: hover) and (pointer: fine) {
-  .head__home:hover .head__logo {
-    -webkit-mask: linear-gradient(105deg, #000 42%, rgba(0, 0, 0, 0.22) 50%, #000 58%) 100% 0 / 300% 100% no-repeat;
-    mask: linear-gradient(105deg, #000 42%, rgba(0, 0, 0, 0.22) 50%, #000 58%) 100% 0 / 300% 100% no-repeat;
-    animation: logo-glint 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+/* Under the pointer a ring of light spreads across the logo once, starting
+   from the exact spot the pointer came in at: the same glare that slides
+   over the photo. The letters never leave; the ring only dims what it passes
+   over. Its radius has to be a registered length to be animated at all. */
+@property --glint-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: -8px;
 }
 
+.head__logo.is-glinting {
+  --ring: radial-gradient(
+    circle at var(--glint-x, 0px) var(--glint-y, 50%),
+    #000 calc(var(--glint-r) - 7px),
+    rgba(0, 0, 0, 0.2) var(--glint-r),
+    #000 calc(var(--glint-r) + 7px)
+  );
+  -webkit-mask: var(--ring);
+  mask: var(--ring);
+  animation: logo-glint 1.1s cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+/* Far enough to clear the logo from whichever end it started at. */
 @keyframes logo-glint {
-  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
-  to   { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
+  from { --glint-r: -8px; }
+  to   { --glint-r: 72px; }
 }
