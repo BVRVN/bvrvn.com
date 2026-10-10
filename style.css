@@ -16,7 +16,7 @@
   --rail-gap: clamp(16px, 2.2vw, 30px);
   --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
   --grow-in: 1.6s var(--ease) 0.15s both;
-  --grow-veiled: 1.6s var(--ease) 3.5s both;
+  --grow-veiled: 1.6s var(--ease) 3.6s both;
   --grow-out: 1.6s var(--ease) 0.15s both;
   --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
@@ -382,7 +382,7 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   pointer-events: none;
-  animation: intro-lift 1.2s cubic-bezier(0.76, 0, 0.24, 1) 2.5s both;
+  animation: intro-lift 1.2s cubic-bezier(0.76, 0, 0.24, 1) 2.6s both;
 }
 
 @keyframes intro-lift {
