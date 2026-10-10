@@ -300,6 +300,8 @@ body {
 }
 
 .theme__icon {
+  transform: rotate(var(--theme-turn, 0deg));
+  transition: transform 0.7s var(--ease);
   display: block;
   width: clamp(13px, 1.4vw, 16px);
   height: clamp(13px, 1.4vw, 16px);
@@ -459,8 +461,12 @@ body {
 
 .cursor {
   position: fixed;
-  top: 0;
-  left: 0;
+  /* Centred on the pointer. It needs a real box of its own: a zero-sized
+     element is dropped from the appearance change's live layers. */
+  top: -5.5px;
+  left: -5.5px;
+  width: 11px;
+  height: 11px;
   z-index: 100;
   pointer-events: none;
   /* Same trick as the header: white under difference blending comes out as
@@ -481,8 +487,8 @@ body {
    leaving four arrowheads aimed at the centre: a game reticle locking on. */
 .cursor__shape {
   position: absolute;
-  top: -5.5px;
-  left: -5.5px;
+  top: 0;
+  left: 0;
   width: 11px;
   height: 11px;
   overflow: visible;
@@ -633,4 +639,42 @@ body {
   /* Height only: widening a slice would spill its stretched edge over the
      neighbours and roughen the diagonals. */
   50%      { transform: scaleY(1.3); }
+}
+
+/* Changing the appearance: the page is photographed before and after, and
+   the new picture is uncovered through a circle growing out of the button. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-wipe 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes theme-wipe {
+  from { clip-path: circle(0 at var(--wipe-x) var(--wipe-y)); }
+  to   { clip-path: circle(var(--wipe-r) at var(--wipe-x) var(--wipe-y)); }
+}
+
+/* The circle is the transition; the colour fade underneath would only muddy
+   the picture it uncovers. */
+.is-wiping body {
+  transition: none;
+}
+
+/* Named so it is carried as its own live layer above the two pictures,
+   instead of freezing inside them for the length of the wipe. */
+.cursor {
+  view-transition-name: cursor;
+}
+
+::view-transition-group(cursor),
+::view-transition-new(cursor) {
+  animation: none;
+}
+
+::view-transition-old(cursor) {
+  display: none;
 }

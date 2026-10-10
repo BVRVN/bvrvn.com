@@ -65,7 +65,7 @@ function showTheme() {
 
 showTheme();
 
-themeButton.addEventListener("click", () => {
+function switchTheme() {
   const dark = root.dataset.theme !== "dark";
   if (dark) {
     root.dataset.theme = "dark";
@@ -80,6 +80,31 @@ themeButton.addEventListener("click", () => {
   }
 
   showTheme();
+}
+
+let themeTurns = 0;
+
+themeButton.addEventListener("click", () => {
+  // The half-filled disc flips over with every press.
+  themeTurns += 1;
+  root.style.setProperty("--theme-turn", `${themeTurns * 180}deg`);
+
+  if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    switchTheme();
+    return;
+  }
+
+  // The new appearance spreads out of the button as a growing circle, sized
+  // to reach the corner of the window farthest from it.
+  const box = themeButton.getBoundingClientRect();
+  const x = box.left + box.width / 2;
+  const y = box.top + box.height / 2;
+  root.style.setProperty("--wipe-x", `${x}px`);
+  root.style.setProperty("--wipe-y", `${y}px`);
+  root.style.setProperty("--wipe-r", `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`);
+
+  root.classList.add("is-wiping");
+  document.startViewTransition(switchTheme).finished.finally(() => root.classList.remove("is-wiping"));
 });
 
 const track = document.querySelector(".progress");
