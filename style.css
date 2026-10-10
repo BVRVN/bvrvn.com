@@ -466,18 +466,41 @@ body {
   opacity: 1;
 }
 
-.cursor::before {
-  content: "";
+/* Four corners that meet into a square at rest. Over anything clickable the
+   square turns onto its point and the corners pull apart around a dot: a
+   game reticle locking on. */
+.cursor__shape {
   position: absolute;
   top: -5.5px;
   left: -5.5px;
   width: 11px;
   height: 11px;
-  border: 1px solid #fff;
-  transition: transform 0.25s var(--ease);
+  overflow: visible;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1;
+  transition: transform 0.35s var(--ease);
 }
 
-/* Opens up over anything that can be clicked. */
-.cursor.is-over::before {
-  transform: scale(1.7);
+.cursor__corner {
+  transition: transform 0.35s var(--ease);
+}
+
+.cursor__dot {
+  fill: #fff;
+  stroke: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor.is-over .cursor__shape {
+  transform: rotate(45deg);
+}
+
+.cursor.is-over .cursor__corner {
+  transform: translate(calc(var(--x) * 2.5px), calc(var(--y) * 2.5px));
+}
+
+.cursor.is-over .cursor__dot {
+  opacity: 1;
 }
