@@ -24,6 +24,10 @@
   /* How many screens tall a page is. The thumb reads it too, so it is the
      right length on the first paint instead of popping in once script runs. */
   --page-screens: 2.6;
+  --word-size: clamp(16.2px, 1.76vw, 20.6px);
+  --word-gap: clamp(3px, 0.4vw, 5px);
+  /* "Studio" set in Inter 500 at this tracking is 2.64em wide. */
+  --studio-w: calc(var(--word-size) * 2.64);
 }
 
 /* The large format belongs to the landing page. Both values are restated
@@ -123,6 +127,11 @@ body {
   justify-self: center;
   position: relative;
   display: block;
+  /* Pulled left by half of "Studio" and its gap, so on the landing page the
+     logo and the word are centred as one. The shift is the same fixed amount
+     on every page, which keeps the logo exactly where it is when the word
+     changes. */
+  transform: translateX(calc((var(--word-gap) + var(--studio-w)) / -2));
 }
 
 .head__home {
@@ -236,7 +245,7 @@ body {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   /* Inter's cap height is 0.7495em, so this lands the capital exactly on the
      logo's height at every viewport width. */
-  font-size: clamp(16.2px, 1.76vw, 20.6px);
+  font-size: var(--word-size);
   font-weight: 500;
   letter-spacing: -0.07em;
   color: inherit;
@@ -247,7 +256,7 @@ body {
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: clamp(3px, 0.4vw, 5px);
+  margin-left: var(--word-gap);
 }
 
 .head__word.is-typing::after {
