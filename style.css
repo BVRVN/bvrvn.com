@@ -483,6 +483,16 @@ body {
   transition: transform 0.35s var(--ease);
 }
 
+/* Over a mid-tone the inverse would be just as grey, so the script picks
+   plain black or white instead. */
+.cursor.is-solid {
+  mix-blend-mode: normal;
+}
+
+.cursor.is-solid .cursor__shape {
+  stroke: var(--cursor-ink, #fff);
+}
+
 .cursor__corner {
   /* Each corner turns about its own middle, not the square's. */
   transform-box: fill-box;

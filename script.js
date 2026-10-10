@@ -118,8 +118,48 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   document.body.append(cursor);
   root.classList.add("has-cursor");
 
+  // Inverting works wherever the surface is clearly light or dark, but the
+  // inverse of a mid-grey is another mid-grey. Pictures are the only place
+  // that happens, so the patch of image under the pointer is averaged into a
+  // single pixel and its brightness read back.
+  const probe = document.createElement("canvas");
+  probe.width = probe.height = 1;
+  const ink = probe.getContext("2d", { willReadFrequently: true });
+
+  function brightnessUnder(target, x, y) {
+    if (!(target instanceof HTMLImageElement) || !target.complete || !target.naturalWidth) return null;
+
+    const box = target.getBoundingClientRect();
+    const scale = target.naturalWidth / box.width;
+    const patch = 12 * scale;
+
+    try {
+      ink.clearRect(0, 0, 1, 1);
+      ink.drawImage(
+        target,
+        (x - box.left) * scale - patch / 2, (y - box.top) * scale - patch / 2, patch, patch,
+        0, 0, 1, 1
+      );
+      const [red, green, blue, alpha] = ink.getImageData(0, 0, 1, 1).data;
+      // Mostly transparent: the page shows through, and that inverts fine.
+      if (alpha < 128) return null;
+      return (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+    } catch {
+      // An image from another origin cannot be read back; inversion stays.
+      return null;
+    }
+  }
+
   addEventListener("mousemove", (event) => {
     cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
+
+    // In the murky middle, stop inverting and take whichever of black or
+    // white stands out more.
+    const brightness = brightnessUnder(event.target, event.clientX, event.clientY);
+    const murky = brightness !== null && brightness > 0.28 && brightness < 0.72;
+    cursor.classList.toggle("is-solid", murky);
+    if (murky) cursor.style.setProperty("--cursor-ink", brightness > 0.5 ? "#000" : "#fff");
+
     cursor.classList.add("is-visible");
     cursor.classList.toggle("is-over", Boolean(event.target.closest("a, button")));
   }, { passive: true });
