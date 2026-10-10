@@ -224,8 +224,8 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   });
 
   // Must match the logo-glint keyframes: the ring's radius over its duration.
-  const RING = { from: -8, to: 72, duration: 1100 };
-  const SWELL = 320;
+  const RING = { from: -8, to: 72, duration: 1700 };
+  const SWELL = 500;
 
   mark.closest("a").addEventListener("mouseenter", (event) => {
     const box = logo.getBoundingClientRect();

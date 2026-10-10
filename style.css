@@ -593,13 +593,13 @@ body {
   --ring: radial-gradient(
     circle at var(--glint-x, 0px) var(--glint-y, 50%),
     #000 calc(var(--glint-r) - 7px),
-    rgba(0, 0, 0, 0.2) var(--glint-r),
+    rgba(0, 0, 0, 0.5) var(--glint-r),
     #000 calc(var(--glint-r) + 7px)
   );
   -webkit-mask: var(--ring);
   mask: var(--ring);
   /* Linear, so the script can tell when the ring reaches each slice. */
-  animation: logo-glint 1.1s linear;
+  animation: logo-glint 1.7s linear;
 }
 
 /* Far enough to clear the logo from whichever end it started at. */
@@ -621,7 +621,7 @@ body {
 
 .head__mark.is-glinting .head__strip {
   visibility: visible;
-  animation: logo-swell 0.32s ease-in-out both;
+  animation: logo-swell 0.5s ease-in-out both;
 }
 
 .head__mark.is-glinting .head__logo:not(.head__strip) {
