@@ -437,3 +437,47 @@ body {
 @keyframes pen-write {
   to { stroke-dashoffset: 0; }
 }
+
+/* The pointer is a thin square. It only replaces the system cursor once the
+   script has taken over, and only where there is a real mouse, so touch
+   screens and a failed script both keep the normal behaviour. */
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor,
+  .has-cursor * {
+    cursor: none;
+  }
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  /* Same trick as the header: white under difference blending stays visible
+     over the paper, the photo and the dark theme alike. */
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+.cursor.is-visible {
+  opacity: 1;
+}
+
+.cursor::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #fff;
+  transition: transform 0.25s var(--ease);
+}
+
+/* Opens up over anything that can be clicked. */
+.cursor.is-over::before {
+  transform: scale(1.7);
+}

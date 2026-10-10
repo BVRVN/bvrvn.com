@@ -101,3 +101,22 @@ function drawProgress() {
 drawProgress();
 addEventListener("scroll", drawProgress, { passive: true });
 addEventListener("resize", drawProgress);
+
+// A thin square stands in for the pointer. Touch devices never get it: there
+// is no pointer to replace, and it would stick wherever the last tap landed.
+if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  const cursor = document.createElement("div");
+  cursor.className = "cursor";
+  cursor.setAttribute("aria-hidden", "true");
+  document.body.append(cursor);
+  root.classList.add("has-cursor");
+
+  addEventListener("mousemove", (event) => {
+    cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+    cursor.classList.add("is-visible");
+    cursor.classList.toggle("is-over", Boolean(event.target.closest("a, button")));
+  }, { passive: true });
+
+  // Leaving the window would otherwise park the square on the edge.
+  document.addEventListener("mouseleave", () => cursor.classList.remove("is-visible"));
+}
