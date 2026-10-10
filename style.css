@@ -556,6 +556,12 @@ body {
   --lift: 1.06;
 }
 
+/* Already at full size on the landing page: there it only leans and catches
+   the light, without growing any further. */
+.is-home .head__photo.is-lit {
+  --lift: 1;
+}
+
 /* Quick while it is being steered, slow when it settles back. */
 .head__photo.is-lit img,
 .head__photo.is-lit .head__shine {
