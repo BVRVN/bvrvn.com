@@ -353,35 +353,106 @@ body {
 
 /* Where you are in the page, read against the left margin under the photo. */
 .progress {
+  /* The overshoot is what makes the rail read as swelling rather than just
+     getting wider. */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   position: fixed;
   left: calc(var(--pad) + clamp(12px, 1.5vw, 20px));
   top: calc(var(--pad) + var(--photo-h) + var(--rail-gap));
   bottom: var(--pad);
   width: 1px;
   z-index: 9;
+  /* A drag on it scrubs the page, so the browser must not also pan. */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .progress::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  margin-left: -0.5px;
+  border-radius: 99px;
   background: var(--fg);
   opacity: 0.16;
+  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring), opacity 0.3s ease;
 }
 
+/* A hairline is impossible to aim at: this invisible band around it is what
+   the pointer actually catches. */
+.progress::after {
+  content: "";
+  position: absolute;
+  inset: -6px -13px;
+}
+
+/* The thumb is only a carrier that the script slides along the track; what
+   is seen is drawn inside it, free to swell and bounce without disturbing
+   that movement. */
 .progress__thumb {
   position: absolute;
   top: 0;
-  /* Heavier than the rail and centred on it. */
-  left: -0.5px;
-  width: 2px;
+  left: 0;
+  width: 1px;
   height: calc(100% / var(--page-screens));
   /* Painted where the last page left it, before any script runs, so it has
      no chance to flash at the top first. A percentage here is of the thumb's
      own length, and the track is that length times the screen count. */
   transform: translateY(calc(100% * (var(--page-screens) - 1) * var(--rail-was, 0)));
-  background: var(--fg);
   will-change: transform;
+}
+
+.progress__thumb::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  /* Heavier than the rail and centred on it. */
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 99px;
+  background: var(--fg);
+  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring);
+}
+
+/* In use, under the pointer or while the page is moving, the rail fattens
+   the way a media scrubber does when it is touched. */
+.progress.is-active::before {
+  width: 3px;
+  margin-left: -1.5px;
+  opacity: 0.22;
+}
+
+.progress.is-active .progress__thumb::before {
+  width: 6px;
+  margin-left: -3px;
+}
+
+/* Hitting either end, the thumb runs a little past it, squashes against the
+   stop and settles back. */
+.progress__thumb[data-bounce="end"]::before {
+  transform-origin: 50% 100%;
+  animation: rail-bounce 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
+  --past: 1;
+}
+
+.progress__thumb[data-bounce="start"]::before {
+  transform-origin: 50% 0;
+  animation: rail-bounce 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
+  --past: -1;
+}
+
+@keyframes rail-bounce {
+  0%   { transform: translateY(0) scaleY(1); }
+  28%  { transform: translateY(calc(var(--past) * 7px)) scaleY(0.84); }
+  58%  { transform: translateY(calc(var(--past) * -2.5px)) scaleY(1.04); }
+  80%  { transform: translateY(calc(var(--past) * 1px)) scaleY(0.99); }
+  100% { transform: translateY(0) scaleY(1); }
 }
 
 .page {

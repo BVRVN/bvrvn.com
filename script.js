@@ -152,8 +152,24 @@ function drawProgress() {
 
   thumb.style.height = height + "px";
   thumb.style.transform = `translateY(${(trackHeight - height) * travelled}px)`;
+
+  // Arriving at an end, as opposed to already resting on it, sets off the
+  // bounce. Dropping the attribute and reading a layout value lets it replay.
+  const stop = travelled >= 0.999 ? "end" : travelled <= 0.001 ? "start" : "";
+  if (stop && stop !== railStop && railStop !== null && scrollable > 0) {
+    delete thumb.dataset.bounce;
+    void thumb.offsetWidth;
+    thumb.dataset.bounce = stop;
+  }
+  railStop = stop;
   railAt = travelled;
 }
+
+// null until the first drawing, so a page that simply opens at its top does
+// not bounce.
+let railStop = null;
+
+thumb.addEventListener("animationend", () => delete thumb.dataset.bounce);
 
 // A new page always opens at its top. If the last one was left part-way
 // down, the thumb starts where it was and glides up, instead of snapping.
@@ -185,11 +201,69 @@ if (railWas > 0.005 && scrollY === 0) {
   drawProgress();
   // Scrolling must then follow the wheel exactly, with no easing in the way.
   const release = () => { thumb.style.transition = ""; };
-  thumb.addEventListener("transitionend", release, { once: true });
+  // The swelling inside the thumb has transitions of its own; only the end
+  // of the glide itself counts.
+  thumb.addEventListener("transitionend", function settled(event) {
+    if (event.target !== thumb || event.pseudoElement || event.propertyName !== "transform") return;
+    thumb.removeEventListener("transitionend", settled);
+    release();
+  });
   addEventListener("scroll", release, { once: true, passive: true });
 }
 addEventListener("scroll", drawProgress, { passive: true });
 addEventListener("resize", drawProgress);
+
+// The rail swells while it is in use: under the pointer, while it is being
+// dragged, and for a moment after the page last moved.
+let railHovered = false;
+let railDragged = false;
+let railMoving = null;
+
+function showRailUse() {
+  track.classList.toggle("is-active", railHovered || railDragged || railMoving !== null);
+}
+
+addEventListener("scroll", () => {
+  clearTimeout(railMoving);
+  railMoving = setTimeout(() => {
+    railMoving = null;
+    showRailUse();
+  }, 650);
+  showRailUse();
+}, { passive: true });
+
+track.addEventListener("pointerenter", () => { railHovered = true; showRailUse(); });
+track.addEventListener("pointerleave", () => { railHovered = false; showRailUse(); });
+
+// Pressing or dragging on the rail scrubs the page, like a media scrubber:
+// the thumb's middle goes to the pointer.
+function scrubTo(clientY) {
+  const box = track.getBoundingClientRect();
+  const height = parseFloat(thumb.style.height);
+  const along = (clientY - box.top - height / 2) / (box.height - height);
+  const scrollable = document.documentElement.scrollHeight - innerHeight;
+  scrollTo(0, Math.min(1, Math.max(0, along)) * scrollable);
+}
+
+track.addEventListener("pointerdown", (event) => {
+  if (event.button !== 0) return;
+  event.preventDefault();
+  track.setPointerCapture(event.pointerId);
+  railDragged = true;
+  showRailUse();
+  scrubTo(event.clientY);
+});
+
+track.addEventListener("pointermove", (event) => {
+  if (railDragged) scrubTo(event.clientY);
+});
+
+for (const end of ["pointerup", "pointercancel"]) {
+  track.addEventListener(end, () => {
+    railDragged = false;
+    showRailUse();
+  });
+}
 
 // A thin square stands in for the pointer. Touch devices never get it: there
 // is no pointer to replace, and it would stick wherever the last tap landed.
@@ -250,7 +324,7 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     if (murky) cursor.style.setProperty("--cursor-ink", brightness > 0.5 ? "#000" : "#fff");
 
     cursor.classList.add("is-visible");
-    cursor.classList.toggle("is-over", Boolean(event.target.closest("a, button")));
+    cursor.classList.toggle("is-over", Boolean(event.target.closest("a, button, .progress")));
   }, { passive: true });
 
   // Leaving the window would otherwise park the square on the edge.
