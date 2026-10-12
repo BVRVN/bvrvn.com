@@ -28,6 +28,13 @@
     } catch {
       document.documentElement.dataset.veil = "";
     }
+
+    // Where the rail's thumb was on the page just left, so it is painted
+    // there from the very first frame and can glide up from it.
+    try {
+      const at = sessionStorage.getItem("rail-at");
+      if (at) document.documentElement.style.setProperty("--rail-was", at);
+    } catch {}
   })();
 </script>
 </head>

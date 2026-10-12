@@ -114,7 +114,7 @@ const thumb = document.querySelector(".progress__thumb");
 // the first half-screen of scrolling, so further down it sits exactly as it
 // does on the other pages.
 const isHome = document.body.classList.contains("is-home");
-const FOLD_KEY = "photo-folded";
+const FOLD_KEY = "photo-fold";
 let folded = 0;
 
 function foldPhoto() {
@@ -124,12 +124,12 @@ function foldPhoto() {
   root.style.setProperty("--fold", String(1 - folded * (1 - small)));
 }
 
-// The next page shrinks the photo on arrival from here. If it has already
-// been folded away by scrolling, there is nothing left to shrink.
+// The next page shrinks the photo on arrival from here, starting from
+// however far scrolling had already folded it.
 if (isHome) {
   addEventListener("pagehide", () => {
     try {
-      sessionStorage.setItem(FOLD_KEY, folded > 0.9 ? "1" : "0");
+      sessionStorage.setItem(FOLD_KEY, root.style.getPropertyValue("--fold") || "1");
     } catch {}
   });
 }

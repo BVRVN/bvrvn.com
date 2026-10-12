@@ -183,7 +183,9 @@ body {
 }
 
 @keyframes photo-shrink {
-  from { transform: scale(calc(1 / var(--grow-from))); }
+  /* --from-fold is how open the photo still was when the landing page was
+     left: 1 at its top, less if scrolling had begun to close it. */
+  from { transform: scale(calc(var(--from-fold, 1) / var(--grow-from))); }
   to   { transform: scale(1); }
 }
 
@@ -192,7 +194,7 @@ body {
 }
 
 @keyframes rail-follow-back {
-  from { top: calc(var(--pad) + var(--photo-h) / var(--grow-from) + var(--rail-gap)); }
+  from { top: calc(var(--pad) + var(--photo-h) * var(--from-fold, 1) / var(--grow-from) + var(--rail-gap)); }
   to   { top: calc(var(--pad) + var(--photo-h) + var(--rail-gap)); }
 }
 
@@ -358,6 +360,10 @@ body {
   left: -0.5px;
   width: 2px;
   height: calc(100% / var(--page-screens));
+  /* Painted where the last page left it, before any script runs, so it has
+     no chance to flash at the top first. A percentage here is of the thumb's
+     own length, and the track is that length times the screen count. */
+  transform: translateY(calc(100% * (var(--page-screens) - 1) * var(--rail-was, 0)));
   background: var(--fg);
   will-change: transform;
 }
