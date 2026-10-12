@@ -157,8 +157,8 @@ body {
    It sits in the end keyframe because a finished animation keeps holding
    that value, and would override a transform set any other way. */
 @keyframes photo-grow {
-  from { transform: scale(var(--grow-from)); }
-  to   { transform: scale(var(--fold, 1)); }
+  from { transform: scale(var(--grow-from)); --photo-scale: var(--grow-from); }
+  to   { transform: scale(var(--fold, 1)); --photo-scale: var(--fold, 1); }
 }
 
 /* Shares the photo's timing and curve, so the gap between the two stays
@@ -185,8 +185,11 @@ body {
 @keyframes photo-shrink {
   /* --from-fold is how open the photo still was when the landing page was
      left: 1 at its top, less if scrolling had begun to close it. */
-  from { transform: scale(calc(var(--from-fold, 1) / var(--grow-from))); }
-  to   { transform: scale(1); }
+  from {
+    transform: scale(calc(var(--from-fold, 1) / var(--grow-from)));
+    --photo-scale: calc(var(--from-fold, 1) / var(--grow-from));
+  }
+  to   { transform: scale(1); --photo-scale: 1; }
 }
 
 [data-from-studio] .progress {
@@ -203,7 +206,20 @@ body {
   to   { top: calc(var(--pad) + var(--photo-h) * var(--fold, 1) + var(--rail-gap)); }
 }
 
+/* The photo changes size by being scaled, which would scale its shadow with
+   it: a shrunken photo would cast a shrunken shadow. --photo-scale mirrors
+   the scale in force and every shadow length is divided by it, so the shadow
+   stays the same depth on screen whatever the photo's size, and matches from
+   one page to the next. Registered as a number so it animates alongside the
+   transform instead of flipping halfway. */
+@property --photo-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
 .head__photo {
+  --k: calc(1 / var(--photo-scale));
   position: fixed;
   top: var(--pad);
   left: var(--pad);
@@ -219,9 +235,9 @@ body {
   height: auto;
   display: block;
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.17),
-    0 4px 8px rgba(0, 0, 0, 0.12),
-    0 16px 32px rgba(0, 0, 0, 0.10);
+    0 calc(1px * var(--k)) calc(2px * var(--k)) rgba(0, 0, 0, 0.17),
+    0 calc(4px * var(--k)) calc(8px * var(--k)) rgba(0, 0, 0, 0.12),
+    0 calc(16px * var(--k)) calc(32px * var(--k)) rgba(0, 0, 0, 0.10);
 }
 
 /* The bottom corners lift a hair off the surface, so the shadow pools there. */
@@ -234,7 +250,7 @@ body {
   width: 44%;
   height: 20%;
   background: rgba(0, 0, 0, 0.27);
-  filter: blur(10px);
+  filter: blur(calc(10px * var(--k)));
 }
 
 .head__photo::before {
@@ -583,9 +599,9 @@ body {
 
 .head__photo.is-lit img {
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.16),
-    0 10px 20px rgba(0, 0, 0, 0.16),
-    0 28px 56px rgba(0, 0, 0, 0.18);
+    0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0, 0, 0, 0.16),
+    0 calc(10px * var(--k)) calc(20px * var(--k)) rgba(0, 0, 0, 0.16),
+    0 calc(28px * var(--k)) calc(56px * var(--k)) rgba(0, 0, 0, 0.18);
 }
 
 .head__photo.is-lit .head__shine {
