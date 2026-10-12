@@ -423,14 +423,14 @@ body {
 /* In use, under the pointer or while the page is moving, the rail fattens
    the way a media scrubber does when it is touched. */
 .progress.is-active::before {
-  width: 2.5px;
-  margin-left: -1.25px;
+  width: 2px;
+  margin-left: -1px;
   opacity: 0.22;
 }
 
 .progress.is-active .progress__thumb::before {
-  width: 5px;
-  margin-left: -2.5px;
+  width: 4px;
+  margin-left: -2px;
 }
 
 /* Pushed against either end, by a wheel that keeps turning or a drag that
