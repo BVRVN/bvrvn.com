@@ -224,7 +224,7 @@ addEventListener("scroll", markRailMoving, { passive: true });
 // spring pulls it straight back, and it settles after one short rebound. It
 // is stepped by hand rather than left to a CSS transition, so it answers on
 // the very frame of the push and never lags behind a wheel still coasting.
-const SPRING = { stiffness: 620, damping: 30, kick: 1.3, limit: 10 };
+const SPRING = { stiffness: 620, damping: 30, kick: 2.6, limit: 10 };
 let railOffset = 0;
 let railSpeed = 0;
 let railTarget = 0;
