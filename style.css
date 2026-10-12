@@ -417,42 +417,44 @@ body {
   margin-left: -1px;
   border-radius: 99px;
   background: var(--fg);
-  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring);
+  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring), transform 0.6s var(--spring);
 }
 
 /* In use, under the pointer or while the page is moving, the rail fattens
    the way a media scrubber does when it is touched. */
 .progress.is-active::before {
-  width: 3px;
-  margin-left: -1.5px;
+  width: 2.5px;
+  margin-left: -1.25px;
   opacity: 0.22;
 }
 
 .progress.is-active .progress__thumb::before {
-  width: 6px;
-  margin-left: -3px;
+  width: 5px;
+  margin-left: -2.5px;
 }
 
-/* Hitting either end, the thumb runs a little past it, squashes against the
-   stop and settles back. */
-.progress__thumb[data-bounce="end"]::before {
+/* Pushed against either end, by a wheel that keeps turning or a drag that
+   goes too far, the thumb gives a little: it slides past the stop and
+   squashes against it, less and less the harder it is pushed, then springs
+   back when let go. --push is how far past, in pixels, signed. */
+.progress__thumb::before {
+  transform:
+    translateY(calc(var(--push, 0) * 1px))
+    scaleY(calc(1 - max(var(--push, 0), -1 * var(--push, 0)) * 0.018));
+}
+
+.progress__thumb[data-stop="end"]::before {
   transform-origin: 50% 100%;
-  animation: rail-bounce 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
-  --past: 1;
 }
 
-.progress__thumb[data-bounce="start"]::before {
+.progress__thumb[data-stop="start"]::before {
   transform-origin: 50% 0;
-  animation: rail-bounce 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
-  --past: -1;
 }
 
-@keyframes rail-bounce {
-  0%   { transform: translateY(0) scaleY(1); }
-  28%  { transform: translateY(calc(var(--past) * 7px)) scaleY(0.84); }
-  58%  { transform: translateY(calc(var(--past) * -2.5px)) scaleY(1.04); }
-  80%  { transform: translateY(calc(var(--past) * 1px)) scaleY(0.99); }
-  100% { transform: translateY(0) scaleY(1); }
+/* Tight while it is being pushed, loose and springy on the way back. */
+.progress__thumb.is-pushed::before {
+  transition-duration: 0.4s, 0.4s, 0.1s;
+  transition-timing-function: var(--spring), var(--spring), ease-out;
 }
 
 .page {

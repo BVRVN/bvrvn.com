@@ -153,23 +153,8 @@ function drawProgress() {
   thumb.style.height = height + "px";
   thumb.style.transform = `translateY(${(trackHeight - height) * travelled}px)`;
 
-  // Arriving at an end, as opposed to already resting on it, sets off the
-  // bounce. Dropping the attribute and reading a layout value lets it replay.
-  const stop = travelled >= 0.999 ? "end" : travelled <= 0.001 ? "start" : "";
-  if (stop && stop !== railStop && railStop !== null && scrollable > 0) {
-    delete thumb.dataset.bounce;
-    void thumb.offsetWidth;
-    thumb.dataset.bounce = stop;
-  }
-  railStop = stop;
   railAt = travelled;
 }
-
-// null until the first drawing, so a page that simply opens at its top does
-// not bounce.
-let railStop = null;
-
-thumb.addEventListener("animationend", () => delete thumb.dataset.bounce);
 
 // A new page always opens at its top. If the last one was left part-way
 // down, the thumb starts where it was and glides up, instead of snapping.
@@ -223,14 +208,74 @@ function showRailUse() {
   track.classList.toggle("is-active", railHovered || railDragged || railMoving !== null);
 }
 
-addEventListener("scroll", () => {
+function markRailMoving() {
   clearTimeout(railMoving);
   railMoving = setTimeout(() => {
     railMoving = null;
     showRailUse();
   }, 650);
   showRailUse();
+}
+
+addEventListener("scroll", markRailMoving, { passive: true });
+
+// The page cannot scroll past its ends, but the thumb shows the attempt:
+// pushed against a stop it gives a few pixels, with more and more
+// resistance, and springs back as soon as the pushing lets up.
+let railPressure = 0;
+let railLetGo = null;
+
+function releaseRail() {
+  railPressure = 0;
+  thumb.classList.remove("is-pushed");
+  thumb.style.setProperty("--push", "0");
+}
+
+// `beyond` is how far past an end the reader is trying to go, in pixels:
+// positive past the bottom, negative past the top. Returns whether the page
+// really was against that end.
+function pushRail(beyond, { add = true, hold = false } = {}) {
+  const scrollable = document.documentElement.scrollHeight - innerHeight;
+  if (scrollable <= 0) return false;
+
+  const side = beyond > 0 && scrollY >= scrollable - 1 ? 1
+             : beyond < 0 && scrollY <= 0 ? -1
+             : 0;
+  if (!side) return false;
+
+  if (Math.sign(railPressure) !== side) railPressure = 0;
+  railPressure = add ? railPressure + beyond : beyond;
+
+  const reach = side * 9 * (1 - Math.exp(-Math.abs(railPressure) / 260));
+  thumb.dataset.stop = side > 0 ? "end" : "start";
+  thumb.classList.add("is-pushed");
+  thumb.style.setProperty("--push", reach.toFixed(2));
+
+  // A wheel never says when it stops: silence is the release.
+  clearTimeout(railLetGo);
+  if (!hold) railLetGo = setTimeout(releaseRail, 110);
+  markRailMoving();
+  return true;
+}
+
+addEventListener("wheel", (event) => {
+  if (event.ctrlKey) return;
+  pushRail(event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY);
 }, { passive: true });
+
+// On a touch screen the same push comes from a finger still dragging once
+// the page has run out.
+let touchY = null;
+
+addEventListener("touchstart", (event) => { touchY = event.touches[0].clientY; }, { passive: true });
+
+addEventListener("touchmove", (event) => {
+  const y = event.touches[0].clientY;
+  if (touchY !== null) pushRail((touchY - y) * 1.5, { hold: true });
+  touchY = y;
+}, { passive: true });
+
+addEventListener("touchend", () => { touchY = null; releaseRail(); }, { passive: true });
 
 track.addEventListener("pointerenter", () => { railHovered = true; showRailUse(); });
 track.addEventListener("pointerleave", () => { railHovered = false; showRailUse(); });
@@ -243,6 +288,10 @@ function scrubTo(clientY) {
   const along = (clientY - box.top - height / 2) / (box.height - height);
   const scrollable = document.documentElement.scrollHeight - innerHeight;
   scrollTo(0, Math.min(1, Math.max(0, along)) * scrollable);
+
+  // Dragged past an end, the thumb strains after the pointer until released.
+  const past = (along < 0 ? along : along > 1 ? along - 1 : 0) * (box.height - height);
+  if (!past || !pushRail(past * 4, { add: false, hold: true })) releaseRail();
 }
 
 track.addEventListener("pointerdown", (event) => {
@@ -261,6 +310,7 @@ track.addEventListener("pointermove", (event) => {
 for (const end of ["pointerup", "pointercancel"]) {
   track.addEventListener(end, () => {
     railDragged = false;
+    releaseRail();
     showRailUse();
   });
 }
