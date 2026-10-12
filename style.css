@@ -661,13 +661,13 @@ body {
 
 /* Changing the appearance: the page is photographed before and after, and
    the new picture is uncovered through a circle growing out of the button. */
-::view-transition-old(root),
-::view-transition-new(root) {
+.is-wiping::view-transition-old(root),
+.is-wiping::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-new(root) {
+.is-wiping::view-transition-new(root) {
   animation: theme-wipe 0.75s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -695,4 +695,17 @@ body {
 
 ::view-transition-old(cursor) {
   display: none;
+}
+
+/* Going from one page to another, the browser holds the last picture of the
+   old page and dissolves it into the new one. Whatever is not quite ready on
+   the first frame of the new page, the photo and its shadow above all, is
+   covered instead of flashing. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
 }

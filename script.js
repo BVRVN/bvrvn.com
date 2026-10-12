@@ -104,7 +104,11 @@ themeButton.addEventListener("click", () => {
   root.style.setProperty("--wipe-r", `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`);
 
   root.classList.add("is-wiping");
-  document.startViewTransition(switchTheme).finished.finally(() => root.classList.remove("is-wiping"));
+  // The browser skips the animation when the tab is in the background; the
+  // appearance has still changed, so that is not an error worth reporting.
+  document.startViewTransition(switchTheme).finished
+    .catch(() => {})
+    .finally(() => root.classList.remove("is-wiping"));
 });
 
 const track = document.querySelector(".progress");

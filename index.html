@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/photo.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/style.css">
 <script>
   // Runs before the first paint so a dark visitor never sees a white flash.
@@ -59,7 +60,7 @@
 </div>
 
   <a class="head__photo" href="/" aria-label="Accueil">
-    <img draggable="false" src="/assets/photo.jpg" alt="">
+    <img draggable="false" src="/assets/photo.jpg" alt="" width="314" height="409" decoding="sync" fetchpriority="high">
   </a>
 
   <div class="progress" aria-hidden="true">
