@@ -219,63 +219,95 @@ function markRailMoving() {
 
 addEventListener("scroll", markRailMoving, { passive: true });
 
-// The page cannot scroll past its ends, but the thumb shows the attempt:
-// pushed against a stop it gives a few pixels, with more and more
-// resistance, and springs back as soon as the pushing lets up.
-let railPressure = 0;
-let railLetGo = null;
+// The page cannot scroll past its ends, but the thumb shows the attempt. It
+// is a small weight on a spring: every push against a stop kicks it past, the
+// spring pulls it straight back, and it settles after one short rebound. It
+// is stepped by hand rather than left to a CSS transition, so it answers on
+// the very frame of the push and never lags behind a wheel still coasting.
+const SPRING = { stiffness: 620, damping: 30, kick: 1.3, limit: 10 };
+let railOffset = 0;
+let railSpeed = 0;
+let railTarget = 0;
+let railFrame = null;
+let railTick = 0;
 
-function releaseRail() {
-  railPressure = 0;
-  thumb.classList.remove("is-pushed");
-  thumb.style.setProperty("--push", "0");
+function stepRail(now) {
+  // Capped so a tab coming back from the background cannot fling it.
+  const dt = Math.min(0.032, (now - railTick) / 1000);
+  railTick = now;
+
+  const pull = -SPRING.stiffness * (railOffset - railTarget) - SPRING.damping * railSpeed;
+  railSpeed += pull * dt;
+  railOffset += railSpeed * dt;
+
+  // Soft ceiling: the further out, the less each extra push gains.
+  const shown = SPRING.limit * Math.tanh(railOffset / SPRING.limit);
+  thumb.dataset.stop = shown > 0 ? "end" : "start";
+  thumb.style.setProperty("--push", shown.toFixed(2));
+
+  const resting = Math.abs(railOffset - railTarget) < 0.05 && Math.abs(railSpeed) < 2;
+  if (resting && railTarget === 0) {
+    railOffset = railSpeed = 0;
+    thumb.style.setProperty("--push", "0");
+    railFrame = null;
+    return;
+  }
+  railFrame = requestAnimationFrame(stepRail);
 }
 
-// `beyond` is how far past an end the reader is trying to go, in pixels:
-// positive past the bottom, negative past the top. Returns whether the page
-// really was against that end.
-function pushRail(beyond, { add = true, hold = false } = {}) {
+function wakeRail() {
+  if (railFrame !== null) return;
+  railTick = performance.now();
+  railFrame = requestAnimationFrame(stepRail);
+}
+
+// Which end the page is resting against in the direction of `beyond`
+// (positive past the bottom, negative past the top), or 0 if neither.
+function railSide(beyond) {
   const scrollable = document.documentElement.scrollHeight - innerHeight;
-  if (scrollable <= 0) return false;
+  if (scrollable <= 0) return 0;
+  if (beyond > 0 && scrollY >= scrollable - 1) return 1;
+  if (beyond < 0 && scrollY <= 0) return -1;
+  return 0;
+}
 
-  const side = beyond > 0 && scrollY >= scrollable - 1 ? 1
-             : beyond < 0 && scrollY <= 0 ? -1
-             : 0;
-  if (!side) return false;
-
-  if (Math.sign(railPressure) !== side) railPressure = 0;
-  railPressure = add ? railPressure + beyond : beyond;
-
-  const reach = side * 9 * (1 - Math.exp(-Math.abs(railPressure) / 260));
-  thumb.dataset.stop = side > 0 ? "end" : "start";
-  thumb.classList.add("is-pushed");
-  thumb.style.setProperty("--push", reach.toFixed(2));
-
-  // A wheel never says when it stops: silence is the release.
-  clearTimeout(railLetGo);
-  if (!hold) railLetGo = setTimeout(releaseRail, 110);
+// A momentary push, from the wheel: a kick, then the spring takes over.
+function kickRail(beyond) {
+  if (!railSide(beyond)) return;
+  railSpeed += beyond * SPRING.kick;
   markRailMoving();
-  return true;
+  wakeRail();
+}
+
+// A sustained push, from a drag or a finger: the thumb strains towards it
+// for as long as it lasts.
+function holdRail(beyond) {
+  railTarget = railSide(beyond) ? beyond : 0;
+  if (railTarget) markRailMoving();
+  wakeRail();
+}
+
+function releaseRail() {
+  railTarget = 0;
+  wakeRail();
 }
 
 addEventListener("wheel", (event) => {
   if (event.ctrlKey) return;
-  pushRail(event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY);
+  kickRail(event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY);
 }, { passive: true });
 
 // On a touch screen the same push comes from a finger still dragging once
 // the page has run out.
-let touchY = null;
+let touchFrom = null;
 
-addEventListener("touchstart", (event) => { touchY = event.touches[0].clientY; }, { passive: true });
+addEventListener("touchstart", (event) => { touchFrom = event.touches[0].clientY; }, { passive: true });
 
 addEventListener("touchmove", (event) => {
-  const y = event.touches[0].clientY;
-  if (touchY !== null) pushRail((touchY - y) * 1.5, { hold: true });
-  touchY = y;
+  if (touchFrom !== null) holdRail((touchFrom - event.touches[0].clientY) * 0.12);
 }, { passive: true });
 
-addEventListener("touchend", () => { touchY = null; releaseRail(); }, { passive: true });
+addEventListener("touchend", () => { touchFrom = null; releaseRail(); }, { passive: true });
 
 track.addEventListener("pointerenter", () => { railHovered = true; showRailUse(); });
 track.addEventListener("pointerleave", () => { railHovered = false; showRailUse(); });
@@ -291,7 +323,7 @@ function scrubTo(clientY) {
 
   // Dragged past an end, the thumb strains after the pointer until released.
   const past = (along < 0 ? along : along > 1 ? along - 1 : 0) * (box.height - height);
-  if (!past || !pushRail(past * 4, { add: false, hold: true })) releaseRail();
+  holdRail(past * 0.25);
 }
 
 track.addEventListener("pointerdown", (event) => {
