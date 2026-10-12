@@ -224,7 +224,7 @@ addEventListener("scroll", markRailMoving, { passive: true });
 // spring pulls it straight back, and it settles after one short rebound. It
 // is stepped by hand rather than left to a CSS transition, so it answers on
 // the very frame of the push and never lags behind a wheel still coasting.
-const SPRING = { stiffness: 620, damping: 30, kick: 2.6, limit: 10 };
+const SPRING = { stiffness: 620, damping: 30, kick: 2.6, limit: 14, impact: 0.13 };
 let railOffset = 0;
 let railSpeed = 0;
 let railTarget = 0;
@@ -291,6 +291,26 @@ function releaseRail() {
   railTarget = 0;
   wakeRail();
 }
+
+// Arriving at an end, the page hands the thumb the speed it came in at: a
+// slow arrival barely registers, a fast one sends it well past the stop.
+let lastScrollY = scrollY;
+let lastScrollAt = performance.now();
+let wasAtEnd = true;
+
+addEventListener("scroll", () => {
+  const now = performance.now();
+  const speed = (scrollY - lastScrollY) / Math.max(1, now - lastScrollAt) * 1000;
+  lastScrollY = scrollY;
+  lastScrollAt = now;
+
+  const atEnd = railSide(speed) !== 0;
+  if (atEnd && !wasAtEnd && !railDragged) {
+    railSpeed += Math.max(-7000, Math.min(7000, speed)) * SPRING.impact;
+    wakeRail();
+  }
+  wasAtEnd = atEnd;
+}, { passive: true });
 
 addEventListener("wheel", (event) => {
   if (event.ctrlKey) return;
