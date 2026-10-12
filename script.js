@@ -148,9 +148,42 @@ function drawProgress() {
 
   thumb.style.height = height + "px";
   thumb.style.transform = `translateY(${(trackHeight - height) * travelled}px)`;
+  railAt = travelled;
 }
 
+// A new page always opens at its top. If the last one was left part-way
+// down, the thumb starts where it was and glides up, instead of snapping.
+const RAIL_KEY = "rail-at";
+let railAt = 0;
+
+const railWas = (() => {
+  try {
+    return parseFloat(sessionStorage.getItem(RAIL_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+})();
+
+addEventListener("pagehide", () => {
+  try {
+    sessionStorage.setItem(RAIL_KEY, String(railAt));
+  } catch {}
+});
+
 drawProgress();
+
+if (railWas > 0.005 && scrollY === 0) {
+  const height = parseFloat(thumb.style.height);
+  thumb.style.transform = `translateY(${(track.clientHeight - height) * railWas}px)`;
+  // Read back so the starting point is committed before the move is set up.
+  void thumb.offsetWidth;
+  thumb.style.transition = "transform 0.9s cubic-bezier(0.22, 0.75, 0.2, 1)";
+  drawProgress();
+  // Scrolling must then follow the wheel exactly, with no easing in the way.
+  const release = () => { thumb.style.transition = ""; };
+  thumb.addEventListener("transitionend", release, { once: true });
+  addEventListener("scroll", release, { once: true, passive: true });
+}
 addEventListener("scroll", drawProgress, { passive: true });
 addEventListener("resize", drawProgress);
 
