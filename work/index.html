@@ -20,9 +20,11 @@
     if (dark) document.documentElement.dataset.theme = "dark";
 
     // Arriving from the landing page: the photo folds back down, so the flag
-    // has to be set before anything is painted.
+    // has to be set before anything is painted. Unless scrolling there had
+    // already folded it, in which case it is small on both sides.
     try {
-      if (sessionStorage.getItem("page-word") === "Studio") {
+      if (sessionStorage.getItem("page-word") === "Studio" &&
+          sessionStorage.getItem("photo-folded") !== "1") {
         document.documentElement.dataset.fromStudio = "";
       }
     } catch {}

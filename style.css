@@ -152,9 +152,13 @@ body {
   animation: photo-grow var(--grow-in);
 }
 
+/* --fold is 1 at the top of the landing page and falls to the reduced scale
+   as it is scrolled, so the photo closes back down under the reader's hand.
+   It sits in the end keyframe because a finished animation keeps holding
+   that value, and would override a transform set any other way. */
 @keyframes photo-grow {
   from { transform: scale(var(--grow-from)); }
-  to   { transform: scale(1); }
+  to   { transform: scale(var(--fold, 1)); }
 }
 
 /* Shares the photo's timing and curve, so the gap between the two stays
@@ -194,7 +198,7 @@ body {
 
 @keyframes rail-follow {
   from { top: calc(var(--pad) + var(--photo-h) * var(--grow-from) + var(--rail-gap)); }
-  to   { top: calc(var(--pad) + var(--photo-h) + var(--rail-gap)); }
+  to   { top: calc(var(--pad) + var(--photo-h) * var(--fold, 1) + var(--rail-gap)); }
 }
 
 .head__photo {

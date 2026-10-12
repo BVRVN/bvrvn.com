@@ -110,7 +110,34 @@ themeButton.addEventListener("click", () => {
 const track = document.querySelector(".progress");
 const thumb = document.querySelector(".progress__thumb");
 
+// On the landing page the large photo folds back to its reduced size over
+// the first half-screen of scrolling, so further down it sits exactly as it
+// does on the other pages.
+const isHome = document.body.classList.contains("is-home");
+const FOLD_KEY = "photo-folded";
+let folded = 0;
+
+function foldPhoto() {
+  if (!isHome) return;
+  const small = parseFloat(getComputedStyle(root).getPropertyValue("--grow-from"));
+  folded = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5)));
+  root.style.setProperty("--fold", String(1 - folded * (1 - small)));
+}
+
+// The next page shrinks the photo on arrival from here. If it has already
+// been folded away by scrolling, there is nothing left to shrink.
+if (isHome) {
+  addEventListener("pagehide", () => {
+    try {
+      sessionStorage.setItem(FOLD_KEY, folded > 0.9 ? "1" : "0");
+    } catch {}
+  });
+}
+
 function drawProgress() {
+  // First, because folding the photo moves the top of the rail.
+  foldPhoto();
+
   const doc = document.documentElement;
   const scrollable = doc.scrollHeight - innerHeight;
   const trackHeight = track.clientHeight;
