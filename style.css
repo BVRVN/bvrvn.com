@@ -16,7 +16,7 @@
   --rail-gap: clamp(16px, 2.2vw, 30px);
   --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
   --grow-in: 1.6s var(--ease) 0.15s both;
-  --grow-veiled: 1.6s var(--ease) 2.7s both;
+  --grow-veiled: 1.6s var(--ease) 2.3s both;
   --grow-out: 1.6s var(--ease) 0.15s both;
   --veil: rgba(255, 255, 255, 0.62);
   --photo-h: calc(var(--photo-w) * 409 / 314);
@@ -393,7 +393,7 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   pointer-events: none;
-  animation: intro-lift 1s cubic-bezier(0.76, 0, 0.24, 1) 1.85s both;
+  animation: intro-lift 0.9s cubic-bezier(0.76, 0, 0.24, 1) 1.58s both;
 }
 
 @keyframes intro-lift {
@@ -403,7 +403,7 @@ body {
 
 .intro__logo {
   /* The strokes' timings in the markup add up to 2.2s; this scales them. */
-  --pen-pace: 0.7;
+  --pen-pace: 0.58;
   width: clamp(150px, 20vw, 250px);
   height: auto;
   display: block;
@@ -440,7 +440,7 @@ body {
    hairline the pen may have missed along an edge. */
 .pen-seal {
   opacity: 0;
-  animation: pen-down 0.12s linear 1.74s forwards;
+  animation: pen-down 0.12s linear 1.48s forwards;
 }
 
 @keyframes pen-down {
