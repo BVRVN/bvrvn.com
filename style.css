@@ -22,7 +22,7 @@
   /* How many screens tall a page is. The thumb reads it too, so it is the
      right length on the first paint instead of popping in once script runs. */
   --page-screens: 2.6;
-  --word-size: clamp(16.2px, 1.76vw, 20.6px);
+  --word-size: clamp(19.4px, 2.12vw, 24.7px);
   --word-gap: clamp(3px, 0.4vw, 5px);
   /* "Studio" set in Inter 500 at this tracking is 2.64em wide. */
   --studio-w: calc(var(--word-size) * 2.64);
@@ -136,7 +136,7 @@ body {
 }
 
 .head__logo {
-  height: clamp(12.7px, 1.38vw, 16.1px);
+  height: clamp(15.2px, 1.66vw, 19.3px);
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
