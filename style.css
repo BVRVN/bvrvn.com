@@ -304,7 +304,7 @@ body {
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1.3vw, 15px);
+  gap: clamp(17px, 2.1vw, 26px);
 }
 
 .theme {
@@ -335,7 +335,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 6px clamp(10px, 1.3vw, 15px);
+  gap: 6px clamp(17px, 2.1vw, 26px);
 }
 
 .sections__item {
