@@ -285,9 +285,11 @@ body {
   content: "";
   display: inline-block;
   width: 0.07em;
-  height: 0.78em;
+  /* A real text caret: taller than the capitals, dipping below the baseline,
+     yet still inside the line so it cannot nudge the word. */
+  height: 1.08em;
   margin-left: 0.05em;
-  vertical-align: -0.06em;
+  vertical-align: -0.19em;
   background: currentColor;
   animation: caret 0.9s steps(1, end) infinite;
 }
