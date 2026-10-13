@@ -5,7 +5,7 @@
   --muted: #8a8a8a;
   --ink: #02091e;
   --art-invert: 0;
-  --pad: clamp(12px, 1.3vw, 16px);
+  --pad: clamp(8px, 0.9vw, 11px);
   --photo-big: clamp(104px, 16.6vw, 300px);
   --grow-from: 0.24;
   /* Resting size, derived from the large one so the two animations are exact
@@ -22,7 +22,7 @@
   /* How many screens tall a page is. The thumb reads it too, so it is the
      right length on the first paint instead of popping in once script runs. */
   --page-screens: 2.6;
-  --word-size: clamp(19.4px, 2.12vw, 24.7px);
+  --word-size: clamp(21.7px, 2.37vw, 27.6px);
   --word-gap: clamp(3px, 0.4vw, 5px);
   /* "Studio" set in Inter 500 at this tracking is 2.64em wide. */
   --studio-w: calc(var(--word-size) * 2.64);
@@ -136,7 +136,7 @@ body {
 }
 
 .head__logo {
-  height: clamp(15.2px, 1.66vw, 19.3px);
+  height: clamp(17px, 1.86vw, 21.6px);
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
@@ -334,8 +334,8 @@ body {
   transform: rotate(var(--theme-turn, 0deg));
   transition: transform 0.7s var(--ease);
   display: block;
-  width: clamp(13px, 1.4vw, 16px);
-  height: clamp(13px, 1.4vw, 16px);
+  width: clamp(14.5px, 1.6vw, 18.5px);
+  height: clamp(14.5px, 1.6vw, 18.5px);
 }
 
 .sections {
@@ -347,7 +347,7 @@ body {
 
 .sections__item {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(11px, 1.15vw, 13px);
+  font-size: clamp(12px, 1.3vw, 15px);
   font-weight: 500;
   letter-spacing: -0.02em;
   color: inherit;
@@ -372,7 +372,7 @@ body {
   transform: translateY(-100%);
   z-index: 9;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(13px, 1.35vw, 16px);
+  font-size: clamp(14px, 1.5vw, 18px);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.03em;
