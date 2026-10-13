@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="8 12 80 56" width="80" height="56" role="img" aria-label="Page en construction">
 <style>
-  rect { shape-rendering: crispEdges; fill: #0a0a0a; }
+  rect { shape-rendering: crispEdges; fill: #171717; }
 
   /* Pivot at the butt of the handle so the head lands on the surface. */
   .pick {

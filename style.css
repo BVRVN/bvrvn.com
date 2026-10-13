@@ -1,11 +1,9 @@
 :root {
-  --bg: #ececec;
-  --fg: #0a0a0a;
+  /* Flat grounds, so large work can sit on them with nothing behind it. */
+  --bg: #ffffff;
+  --fg: #171717;
   --muted: #8a8a8a;
   --ink: #02091e;
-  /* The paper texture is light, so dark mode multiplies it into the base
-     colour instead of swapping it out — the grain survives. */
-  --texture-blend: normal;
   --art-invert: 0;
   --pad: clamp(12px, 1.3vw, 16px);
   --photo-big: clamp(104px, 16.6vw, 300px);
@@ -39,13 +37,12 @@ body.is-home {
 }
 
 [data-theme="dark"] {
-  --bg: #121212;
-  --fg: #f2f1ee;
+  --bg: #000000;
+  --fg: #ededed;
   --muted: #76746f;
   --ink: #e9eaf0;
-  --texture-blend: multiply;
   --art-invert: 1;
-  --veil: rgba(18, 18, 18, 0.62);
+  --veil: rgba(0, 0, 0, 0.62);
 }
 
 * {
@@ -63,7 +60,8 @@ img {
 
 html {
   background: var(--bg);
-  /* Stops the rubber-band from exposing the canvas past the texture. */
+  /* Stops the page rubber-banding past its ends; the rail shows the push
+     instead. */
   overscroll-behavior-y: none;
 }
 
@@ -72,8 +70,7 @@ body {
   /* clip, not hidden: hidden would turn the body into a second scroll
      container nested in the page's own, which jams the wheel. */
   overflow-x: clip;
-  background: var(--bg) url("assets/bg-texture.jpg") center center / cover no-repeat;
-  background-blend-mode: var(--texture-blend);
+  background: var(--bg);
   color: var(--fg);
   transition: background-color 0.35s ease, color 0.35s ease;
   font-family: "Helvetica Neue", Arial, sans-serif;
