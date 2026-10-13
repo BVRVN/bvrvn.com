@@ -9,7 +9,8 @@ let typingRun = 0;
 async function retype(next) {
   const run = ++typingRun;
   const current = word.textContent;
-  word.classList.add("is-typing");
+  typing = true;
+  showCaret();
 
   for (let i = current.length - 1; i >= 0; i--) {
     if (run !== typingRun) return;
@@ -26,8 +27,25 @@ async function retype(next) {
   // A newer run owns the caret now, so only the last one clears it.
   if (run === typingRun) {
     await wait(450);
-    if (run === typingRun) word.classList.remove("is-typing");
+    if (run === typingRun) {
+      typing = false;
+      showCaret();
+    }
   }
+}
+
+// The caret blinks while the name is being retyped, and also as soon as the
+// pointer rests on a link to another page: the name is about to be edited.
+let typing = false;
+let aboutToType = false;
+
+function showCaret() {
+  word.classList.toggle("is-typing", typing || aboutToType);
+}
+
+for (const link of document.querySelectorAll(".sections__item")) {
+  link.addEventListener("mouseenter", () => { aboutToType = true; showCaret(); });
+  link.addEventListener("mouseleave", () => { aboutToType = false; showCaret(); });
 }
 
 // Each section is its own page, so the swap happens across a navigation.
