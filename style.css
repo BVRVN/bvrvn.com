@@ -228,10 +228,20 @@ body {
    fainter layers. One big blur would read as a smudge on this near-white
    background. */
 .head__photo img {
+  /* The file is the picture alone. Its white margin is drawn here instead of
+     being part of the scan, so it is even on all four sides, perfectly
+     straight, and stays crisp at any size. 11 parts in 314 of the width,
+     which with the picture's own proportions gives the print its 314 by 409
+     overall shape. */
+  box-sizing: border-box;
   width: var(--photo-w);
   height: auto;
   display: block;
+  border: calc(var(--photo-w) * 11 / 314) solid #f6f5f1;
+  /* The first layer is the cut edge of the paper: a hairline that keeps the
+     white margin readable against a white page. */
   box-shadow:
+    0 0 0 calc(0.5px * var(--k)) rgba(0, 0, 0, 0.13),
     0 calc(1px * var(--k)) calc(2px * var(--k)) rgba(0, 0, 0, 0.17),
     0 calc(4px * var(--k)) calc(8px * var(--k)) rgba(0, 0, 0, 0.12),
     0 calc(16px * var(--k)) calc(32px * var(--k)) rgba(0, 0, 0, 0.10);
@@ -699,6 +709,7 @@ body {
 
 .head__photo.is-lit img {
   box-shadow:
+    0 0 0 calc(0.5px * var(--k)) rgba(0, 0, 0, 0.13),
     0 calc(2px * var(--k)) calc(4px * var(--k)) rgba(0, 0, 0, 0.16),
     0 calc(10px * var(--k)) calc(20px * var(--k)) rgba(0, 0, 0, 0.16),
     0 calc(28px * var(--k)) calc(56px * var(--k)) rgba(0, 0, 0, 0.18);
