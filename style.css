@@ -357,9 +357,10 @@ body {
      getting wider. */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   position: fixed;
-  /* Just clear of the reduced photo's right edge, on every page, so it never
-     shifts sideways when the photo changes size. */
-  left: calc(var(--pad) + var(--photo-big) * var(--grow-from) + clamp(6px, 0.7vw, 10px));
+  /* As far from the reduced photo's right edge as the photo is from the
+     page's left one, so the photo sits centred between the two. The same on
+     every page, so it never shifts sideways when the photo changes size. */
+  left: calc(var(--pad) * 2 + var(--photo-big) * var(--grow-from));
   top: calc(var(--pad) + var(--photo-h) + var(--rail-gap));
   bottom: var(--pad);
   width: 1px;
