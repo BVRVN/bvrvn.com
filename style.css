@@ -353,6 +353,36 @@ body {
   opacity: 0.45;
 }
 
+/* The name, set against the foot of the large photo like the caption of a
+   portrait. It hangs off the photo's bottom right corner, follows that
+   corner as scrolling folds the photo away, and is gone before the photo is
+   half closed: the fade is a straight line through --fold that the browser
+   clamps at both ends. */
+.head__name {
+  position: fixed;
+  left: calc(var(--pad) + var(--photo-big) * var(--fold, 1) + clamp(10px, 1.2vw, 16px));
+  top: calc(var(--pad) + var(--photo-big) * 409 / 314 * var(--fold, 1));
+  transform: translateY(-100%);
+  z-index: 9;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(13px, 1.35vw, 16px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  opacity: calc((var(--fold, 1) - 0.55) / 0.45);
+  /* Arrives once the photo has nearly finished opening. */
+  animation: name-in 0.9s var(--ease) 1.1s backwards;
+}
+
+[data-veil] .head__name {
+  animation-delay: 3.25s;
+}
+
+@keyframes name-in {
+  from { opacity: 0; transform: translate(-8px, -100%); }
+}
+
 /* Where you are in the page, read against the left margin under the photo. */
 .progress {
   /* The overshoot is what makes the rail read as swelling rather than just
