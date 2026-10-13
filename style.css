@@ -5,7 +5,7 @@
   --muted: #8a8a8a;
   --ink: #02091e;
   --art-invert: 0;
-  --pad: clamp(8px, 0.9vw, 11px);
+  --pad: clamp(6px, 0.7vw, 9px);
   --photo-big: clamp(104px, 16.6vw, 300px);
   --grow-from: 0.24;
   /* Resting size, derived from the large one so the two animations are exact
@@ -22,7 +22,7 @@
   /* How many screens tall a page is. The thumb reads it too, so it is the
      right length on the first paint instead of popping in once script runs. */
   --page-screens: 2.6;
-  --word-size: clamp(21.7px, 2.37vw, 27.6px);
+  --word-size: clamp(20.4px, 2.23vw, 25.9px);
   --word-gap: clamp(3px, 0.4vw, 5px);
   /* "Studio" set in Inter 500 at this tracking is 2.64em wide. */
   --studio-w: calc(var(--word-size) * 2.64);
@@ -136,7 +136,7 @@ body {
 }
 
 .head__logo {
-  height: clamp(17px, 1.86vw, 21.6px);
+  height: clamp(16px, 1.75vw, 20.3px);
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
