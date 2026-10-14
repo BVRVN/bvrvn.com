@@ -217,7 +217,8 @@ addEventListener("scroll", drawProgress, { passive: true });
 addEventListener("resize", drawProgress);
 
 // The rail swells while it is in use: under the pointer, while it is being
-// dragged, and for a moment after the page last moved.
+// dragged, and while the page moves. It lets go as soon as the page stops;
+// the short grace only bridges the gap between two wheel events.
 let railHovered = false;
 let railDragged = false;
 let railMoving = null;
@@ -231,7 +232,7 @@ function markRailMoving() {
   railMoving = setTimeout(() => {
     railMoving = null;
     showRailUse();
-  }, 650);
+  }, 120);
   showRailUse();
 }
 

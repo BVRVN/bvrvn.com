@@ -421,7 +421,8 @@ body {
   border-radius: 99px;
   background: var(--fg);
   opacity: 0.16;
-  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring), opacity 0.3s ease;
+  /* Short enough to read as instant, long enough not to flicker. */
+  transition: width 0.12s ease-out, margin-left 0.12s ease-out, opacity 0.12s ease-out;
 }
 
 /* A hairline is impossible to aim at: this invisible band around it is what
@@ -459,7 +460,7 @@ body {
   margin-left: -1px;
   border-radius: 99px;
   background: var(--fg);
-  transition: width 0.4s var(--spring), margin-left 0.4s var(--spring);
+  transition: width 0.12s ease-out, margin-left 0.12s ease-out;
 }
 
 /* In use, under the pointer or while the page is moving, the rail fattens
