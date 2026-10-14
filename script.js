@@ -484,7 +484,7 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
 }
 
 // The logo's glint starts wherever the pointer first touches it, and the
-// letters swell as it passes.
+// letters swell under the pointer for as long as it stays on them.
 if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
   const logo = document.querySelector(".head__logo");
   const mark = document.createElement("span");
@@ -507,24 +507,38 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     return strip;
   });
 
-  // Must match the logo-glint keyframes: the ring's radius over its duration.
-  const RING = { from: -8, to: 72, duration: 1700 };
-  const SWELL = 500;
+  const link = mark.closest("a");
 
-  mark.closest("a").addEventListener("mouseenter", (event) => {
+  // How tall the slice right under the pointer grows, and how far either side
+  // the bulge spreads, as a share of the logo's width.
+  const SWELL = { height: 0.3, spread: 0.09 };
+  let unswell = null;
+
+  link.addEventListener("mousemove", (event) => {
+    const box = logo.getBoundingClientRect();
+    const x = event.clientX - box.left;
+    const spread = box.width * SWELL.spread;
+    strips.forEach((strip, index) => {
+      const away = ((index + 0.5) / SLICES) * box.width - x;
+      strip.style.setProperty("--swell", 1 + SWELL.height * Math.exp(-(away * away) / (2 * spread * spread)));
+    });
+    clearTimeout(unswell);
+    mark.classList.add("is-swelling");
+  });
+
+  // Let down gently, then hand back to the real image once flat again.
+  link.addEventListener("mouseleave", () => {
+    strips.forEach((strip) => strip.style.setProperty("--swell", 1));
+    unswell = setTimeout(() => mark.classList.remove("is-swelling"), 200);
+  });
+
+  link.addEventListener("mouseenter", (event) => {
     const box = logo.getBoundingClientRect();
     const x = event.clientX - box.left;
     const y = event.clientY - box.top;
     const room = parseFloat(getComputedStyle(mark).paddingLeft);
     mark.style.setProperty("--glint-x", `${x + room}px`);
     mark.style.setProperty("--glint-y", `${y + room}px`);
-
-    // Each slice peaks at the moment the ring is over it.
-    strips.forEach((strip, index) => {
-      const centre = ((index + 0.5) / SLICES) * box.width;
-      const reached = (Math.abs(centre - x) - RING.from) / (RING.to - RING.from) * RING.duration;
-      strip.style.animationDelay = `${reached - SWELL / 2}ms`;
-    });
 
     // Dropping the class and reading a layout value restarts the animation
     // if the pointer comes back before the last glint has finished.
@@ -533,7 +547,6 @@ if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     mark.classList.add("is-glinting");
   });
 
-  // The slices' own animations bubble up here too; only the ring ends it.
   mark.addEventListener("animationend", (event) => {
     if (event.animationName === "logo-glint") mark.classList.remove("is-glinting");
   });

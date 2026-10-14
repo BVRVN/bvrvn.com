@@ -760,31 +760,28 @@ body {
   to   { --glint-r: 72px; }
 }
 
-/* The swell that rides the ring. The logo is cut into thin vertical slices,
-   each a full copy clipped to its own sliver; a slice bulges as the ring
-   crosses it, so the bump travels with the light. The slices only stand in
-   for the real image while the ring is out. */
+/* The swell that follows the pointer. The logo is cut into thin vertical
+   slices, each a full copy clipped to its own sliver; the slices nearest the
+   pointer are stretched taller, so a bulge sits under it and travels with it
+   for as long as it stays on the logo. The slices only stand in for the real
+   image while the logo is hovered. */
 .head__strip {
   position: absolute;
   top: var(--room);
   left: var(--room);
   visibility: hidden;
-}
-
-.head__mark.is-glinting .head__strip {
-  visibility: visible;
-  animation: logo-swell 0.5s ease-in-out both;
-}
-
-.head__mark.is-glinting .head__logo:not(.head__strip) {
-  visibility: hidden;
-}
-
-@keyframes logo-swell {
-  0%, 100% { transform: scaleY(1); }
   /* Height only: widening a slice would spill its stretched edge over the
      neighbours and roughen the diagonals. */
-  50%      { transform: scaleY(1.3); }
+  transform: scaleY(var(--swell, 1));
+  transition: transform 0.14s ease-out;
+}
+
+.head__mark.is-swelling .head__strip {
+  visibility: visible;
+}
+
+.head__mark.is-swelling .head__logo:not(.head__strip) {
+  visibility: hidden;
 }
 
 /* Changing the appearance: the page is photographed before and after, and
