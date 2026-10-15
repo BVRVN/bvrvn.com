@@ -369,14 +369,14 @@ body {
   position: fixed;
   left: calc(var(--pad) + var(--photo-big) * var(--fold, 1) + clamp(10px, 1.2vw, 16px));
   /* A little above the photo's bottom edge, the lift shrinking with it. */
-  top: calc(var(--pad) + (var(--photo-big) * 409 / 314 - clamp(8px, 1.1vw, 16px)) * var(--fold, 1));
+  top: calc(var(--pad) + (var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px)) * var(--fold, 1));
   transform: translateY(-100%);
   z-index: 9;
   /* Display setting: heavy, narrow-cut capitals stacked tight, like an
      editorial headline. Inter Tight is the compact cut of the site's own
      typeface, so it stays in the family. */
   font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(36px, 4.6vw, 60px);
+  font-size: clamp(40px, 5.3vw, 70px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.035em;
