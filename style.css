@@ -371,12 +371,13 @@ body {
   top: calc(var(--pad) + var(--photo-big) * 409 / 314 * var(--fold, 1));
   transform: translateY(-100%);
   z-index: 9;
-  /* Set exactly like the page links, on two lines. */
+  /* The page links' typeface, much larger, on two lines; tracked in a
+     little more because large type looks loose at the links' spacing. */
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(12px, 1.3vw, 15px);
+  font-size: clamp(24px, 2.9vw, 36px);
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
   white-space: nowrap;
   opacity: calc((var(--fold, 1) - 0.55) / 0.45);
   /* Arrives once the photo has nearly finished opening. */
