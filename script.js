@@ -210,10 +210,15 @@ function drawHeaderStencil() {
 
 function slideUnderHeader() {
   // The stencil stays put on screen while the name moves beneath it.
+  const band = header.getBoundingClientRect();
+  let beneath = false;
   for (const part of underHeader) {
     const at = part.getBoundingClientRect();
     part.style.webkitMaskPosition = part.style.maskPosition = `${-at.left}px ${-at.top}px`;
+    if (at.top < band.bottom && at.bottom > band.top) beneath = true;
   }
+  // While something is passing under it, the header casts a soft shadow.
+  header.classList.toggle("is-above", beneath);
 }
 
 if (underHeader.length) {
