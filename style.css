@@ -373,8 +373,8 @@ body {
   transform: translateY(-100%);
   z-index: 9;
   display: flex;
-  align-items: flex-end;
-  gap: clamp(16px, 2.2vw, 32px);
+  align-items: center;
+  gap: clamp(32px, 4.5vw, 72px);
   opacity: calc((var(--fold, 1) - 0.55) / 0.45);
   /* Arrives once the photo has nearly finished opening. */
   animation: name-in 0.9s var(--ease) 1.1s backwards;
@@ -398,11 +398,9 @@ body {
 }
 
 /* Quiet beside the name: the page links' type, a step lighter in colour,
-   resting on the same baseline as the last line of the name. */
+   set well clear of it and level with its middle. */
 .head__about {
   max-width: 24ch;
-  /* The capitals' line box runs a little below their baseline. */
-  margin-bottom: 0.15em;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(12px, 1.3vw, 15px);
   font-weight: 500;
