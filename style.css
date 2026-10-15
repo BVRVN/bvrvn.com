@@ -360,9 +360,8 @@ body {
   opacity: 0.45;
 }
 
-/* The name and a line about Baran, set beside the large photo like the
-   caption of a portrait. Placed against the photo's full size, but part of
-   the page rather than pinned: when scrolling folds the photo away, the pair
+/* The name, set beside the large photo like the caption of a portrait. Placed against the photo's full size, but part of
+   the page rather than pinned: when scrolling folds the photo away, it
    does not follow it and simply scrolls off with the rest of the page. */
 .head__intro {
   position: absolute;
@@ -371,9 +370,6 @@ body {
   top: calc(var(--pad) + var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px));
   transform: translateY(-100%);
   z-index: 9;
-  display: flex;
-  align-items: center;
-  gap: clamp(48px, 7vw, 120px);
   /* Arrives once the photo has nearly finished opening. */
   animation: name-in 0.9s var(--ease) 1.1s backwards;
 }
@@ -395,28 +391,49 @@ body {
   white-space: nowrap;
 }
 
-/* Quiet beside the name: the page links' type, a step lighter in colour,
-   set well clear of it and level with its middle. */
+/* Quiet, centred under the logo and the page's name: the page links' type,
+   larger and a step lighter in colour. Like the name, it belongs to the page
+   and scrolls away with it. */
 .head__about {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--pad) + var(--photo-small-h) / 2 + clamp(20px, 2.6vw, 34px));
+  transform: translateX(-50%);
+  z-index: 9;
+  width: max-content;
   max-width: 24ch;
+  text-align: center;
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(15px, 1.75vw, 21px);
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -0.02em;
   color: var(--muted);
+  animation: about-in 0.9s var(--ease) 1.1s backwards;
 }
 
-/* No room beside the name on a phone: the line drops beneath it instead. */
+[data-veil] .head__about {
+  animation-delay: 3.25s;
+}
+
+@keyframes about-in {
+  from { opacity: 0; transform: translate(-50%, -6px); }
+}
+
+/* On a phone the name already fills the space under the logo, so the line
+   sits beneath the name instead, aligned with it. */
 @media (max-width: 700px) {
   .head__about {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    margin: 0;
-    width: max-content;
-    max-width: min(24ch, calc(100vw - 100% - 2 * var(--pad)));
+    left: calc(var(--pad) + var(--photo-big) + clamp(18px, 2.6vw, 40px));
+    top: calc(var(--pad) + var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px) + 10px);
+    transform: none;
+    text-align: left;
+    animation-name: name-in-below;
   }
+}
+
+@keyframes name-in-below {
+  from { opacity: 0; transform: translateX(-8px); }
 }
 
 @keyframes name-in {
