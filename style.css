@@ -374,9 +374,8 @@ body {
   display: flex;
   align-items: center;
   gap: clamp(48px, 7vw, 120px);
-  /* Faded out by the script as it scrolls up towards the header, so it is
-     gone before it can run over the logo. */
-  opacity: var(--intro-fade, 1);
+  /* Cut away by the script where it has scrolled up past the header, so
+     it slides under it rather than over the logo. */
   /* Arrives once the photo has nearly finished opening. */
   animation: name-in 0.9s var(--ease) 1.1s backwards;
 }

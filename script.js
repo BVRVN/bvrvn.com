@@ -148,13 +148,12 @@ function foldPhoto() {
   folded = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5)));
   root.style.setProperty("--fold", String(1 - folded * (1 - small)));
 
-  // The name scrolls with the page. It fades in step with the distance left
-  // between it and the header, and is gone by the time it would reach it.
-  const below = header.getBoundingClientRect().bottom;
-  const top = intro.getBoundingClientRect().top;
-  const room = top + scrollY - below;
-  const fade = room > 0 ? (top - below) / room : 1;
-  root.style.setProperty("--intro-fade", String(Math.min(1, Math.max(0, fade))));
+  // The name scrolls with the page and slips under the header's line as if
+  // beneath an edge: whatever has risen past it is cut away, so it never
+  // runs over the logo.
+  const edge = header.getBoundingClientRect().bottom;
+  const cut = Math.max(0, edge - intro.getBoundingClientRect().top);
+  intro.style.clipPath = cut ? `inset(${cut}px -100vw -100vh -100vw)` : "";
 }
 
 // The next page shrinks the photo on arrival from here, starting from
