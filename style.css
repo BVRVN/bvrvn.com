@@ -360,22 +360,20 @@ body {
   opacity: 0.45;
 }
 
-/* The name and a line about the work, set against the foot of the large
-   photo like the caption of a portrait. The pair hangs off the photo's
-   bottom right corner, follows that corner as scrolling folds the photo
-   away, and is gone before the photo is half closed: the fade is a straight
-   line through --fold that the browser clamps at both ends. */
+/* The name and a line about Baran, set beside the large photo like the
+   caption of a portrait. Placed against the photo's full size, but part of
+   the page rather than pinned: when scrolling folds the photo away, the pair
+   does not follow it and simply scrolls off with the rest of the page. */
 .head__intro {
-  position: fixed;
-  left: calc(var(--pad) + var(--photo-big) * var(--fold, 1) + clamp(18px, 2.6vw, 40px));
-  /* A little above the photo's bottom edge, the lift shrinking with it. */
-  top: calc(var(--pad) + (var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px)) * var(--fold, 1));
+  position: absolute;
+  left: calc(var(--pad) + var(--photo-big) + clamp(18px, 2.6vw, 40px));
+  /* A little above the photo's bottom edge. */
+  top: calc(var(--pad) + var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px));
   transform: translateY(-100%);
   z-index: 9;
   display: flex;
   align-items: center;
   gap: clamp(48px, 7vw, 120px);
-  opacity: calc((var(--fold, 1) - 0.55) / 0.45);
   /* Arrives once the photo has nearly finished opening. */
   animation: name-in 0.9s var(--ease) 1.1s backwards;
 }
