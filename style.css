@@ -371,13 +371,15 @@ body {
   top: calc(var(--pad) + var(--photo-big) * 409 / 314 * var(--fold, 1));
   transform: translateY(-100%);
   z-index: 9;
-  /* The page links' typeface, much larger, on two lines; tracked in a
-     little more because large type looks loose at the links' spacing. */
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(24px, 2.9vw, 36px);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
+  /* Display setting: heavy, narrow-cut capitals stacked tight, like an
+     editorial headline. Inter Tight is the compact cut of the site's own
+     typeface, so it stays in the family. */
+  font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(30px, 3.7vw, 48px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
   white-space: nowrap;
   opacity: calc((var(--fold, 1) - 0.55) / 0.45);
   /* Arrives once the photo has nearly finished opening. */
