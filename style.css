@@ -128,7 +128,7 @@ body {
 
 .head__brand.is-above,
 .head__right.is-above {
-  filter: drop-shadow(0 1.5px 2px rgba(255, 255, 255, 0.55));
+  filter: drop-shadow(0 1px 1.5px rgba(255, 255, 255, 0.22));
 }
 
 /* Only the logo sits in this box, so the centred position never depends on
