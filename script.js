@@ -171,19 +171,13 @@ function drawHeaderStencil() {
   // Everything drawn from here on punches a hole in the stencil.
   pen.globalCompositeOperation = "destination-out";
 
-  // The logo, nudged around by a hair so the hole is a touch wider than the
-  // letters and no sliver of the name shows along their edges.
+  // The logo, exactly the size of its letters: any wider and the name would
+  // leave an empty outline around them as it passes.
   const logo = document.querySelector(".head__logo:not(.head__strip)");
   const box = logo.getBoundingClientRect();
-  for (const dx of [-1.5, 0, 1.5]) {
-    for (const dy of [-1.5, 0, 1.5]) {
-      pen.drawImage(logo, box.left + dx, box.top + dy, box.width, box.height);
-    }
-  }
+  pen.drawImage(logo, box.left, box.top, box.width, box.height);
 
   // The page's name and the links, set again in their own type.
-  pen.lineWidth = 3;
-  pen.lineJoin = "round";
   for (const label of document.querySelectorAll(".head__word, .sections__item")) {
     const text = label.textContent;
     if (!text) continue;
@@ -196,14 +190,13 @@ function drawHeaderStencil() {
     const size = pen.measureText(text);
     const tall = size.fontBoundingBoxAscent + size.fontBoundingBoxDescent;
     const baseline = area.top + (area.height - tall) / 2 + size.fontBoundingBoxAscent;
-    pen.strokeText(text, area.left, baseline);
     pen.fillText(text, area.left, baseline);
   }
 
   // The appearance button, as the disc it reads as.
   const button = document.querySelector(".theme__icon").getBoundingClientRect();
   pen.beginPath();
-  pen.arc(button.left + button.width / 2, button.top + button.height / 2, button.width / 2 + 1.5, 0, Math.PI * 2);
+  pen.arc(button.left + button.width / 2, button.top + button.height / 2, button.width / 2, 0, Math.PI * 2);
   pen.fill();
 
   const picture = `url(${canvas.toDataURL()})`;
