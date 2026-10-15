@@ -159,28 +159,30 @@ function foldPhoto() {
 // layout changes, and slid against the name as the page scrolls.
 const underHeader = isHome ? [...document.querySelectorAll(".head__name, .head__about")] : [];
 
-function drawHeaderStencil() {
-  if (!underHeader.length) return;
-  const ratio = devicePixelRatio || 1;
-  const canvas = document.createElement("canvas");
-  canvas.width = innerWidth * ratio;
-  canvas.height = innerHeight * ratio;
-  const pen = canvas.getContext("2d");
-  pen.scale(ratio, ratio);
-  pen.fillRect(0, 0, innerWidth, innerHeight);
-  // Everything drawn from here on punches a hole in the stencil.
-  pen.globalCompositeOperation = "destination-out";
+// Draws the header's letters with `pen` exactly where they sit on screen, and
+// returns each letter's box: the logo cut at the joins between its five
+// letters, the words one character at a time, the button as its disc.
+const LOGO_JOINS = [0, 82, 157, 220, 301, 392];
 
-  // The logo, exactly the size of its letters: any wider and the name would
-  // leave an empty outline around them as it passes.
+function drawHeaderLetters(pen) {
+  const letters = [];
+
   const logo = document.querySelector(".head__logo:not(.head__strip)");
   const box = logo.getBoundingClientRect();
   pen.drawImage(logo, box.left, box.top, box.width, box.height);
+  for (let index = 0; index < LOGO_JOINS.length - 1; index++) {
+    letters.push({
+      left: box.left + (LOGO_JOINS[index] / 392) * box.width,
+      right: box.left + (LOGO_JOINS[index + 1] / 392) * box.width,
+      top: box.top,
+      bottom: box.bottom,
+    });
+  }
 
-  // The page's name and the links, set again in their own type.
   for (const label of document.querySelectorAll(".head__word, .sections__item")) {
+    const node = label.firstChild;
     const text = label.textContent;
-    if (!text) continue;
+    if (!node || !text) continue;
     const style = getComputedStyle(label);
     pen.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     if ("letterSpacing" in pen) pen.letterSpacing = style.letterSpacing;
@@ -191,15 +193,78 @@ function drawHeaderStencil() {
     const tall = size.fontBoundingBoxAscent + size.fontBoundingBoxDescent;
     const baseline = area.top + (area.height - tall) / 2 + size.fontBoundingBoxAscent;
     pen.fillText(text, area.left, baseline);
+    for (let index = 0; index < text.length; index++) {
+      range.setStart(node, index);
+      range.setEnd(node, index + 1);
+      const glyph = range.getBoundingClientRect();
+      letters.push({
+        left: glyph.left,
+        right: glyph.right,
+        top: baseline - size.actualBoundingBoxAscent,
+        bottom: baseline + size.actualBoundingBoxDescent,
+      });
+    }
   }
 
-  // The appearance button, as the disc it reads as.
   const button = document.querySelector(".theme__icon").getBoundingClientRect();
   pen.beginPath();
   pen.arc(button.left + button.width / 2, button.top + button.height / 2, button.width / 2, 0, Math.PI * 2);
   pen.fill();
+  letters.push(button);
 
-  const picture = `url(${canvas.toDataURL()})`;
+  return letters;
+}
+
+// A faint shadow under a header letter, drawn only for the letters something
+// is passing under. Every letter's shadow is drawn once, ahead of time; while
+// scrolling, the ones being crossed are simply copied onto a sheet laid over
+// the page, just beneath the header.
+const SHADOW = { offset: 1, blur: 1.5, color: "rgba(0, 0, 0, 0.2)", reach: 4 };
+let shadows = null;
+let headerLetters = [];
+const shadowSheet = isHome ? document.createElement("canvas") : null;
+if (shadowSheet) {
+  shadowSheet.className = "head__shadows";
+  shadowSheet.setAttribute("aria-hidden", "true");
+  document.querySelector(".head__intro").after(shadowSheet);
+}
+
+function drawHeaderStencil() {
+  if (!underHeader.length) return;
+  const ratio = devicePixelRatio || 1;
+  const sheet = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = innerWidth * ratio;
+    canvas.height = innerHeight * ratio;
+    const pen = canvas.getContext("2d");
+    pen.scale(ratio, ratio);
+    return [canvas, pen];
+  };
+
+  // The stencil: opaque everywhere but the letters, which are punched out
+  // to their exact shape; any wider and the name would leave an empty
+  // outline around them as it passes.
+  const [stencil, cut] = sheet();
+  cut.fillRect(0, 0, innerWidth, innerHeight);
+  cut.globalCompositeOperation = "destination-out";
+  headerLetters = drawHeaderLetters(cut);
+
+  // The shadows: the letters drawn with a soft shadow, then the letters
+  // themselves removed so only the shade around them is left.
+  const [shade, pen] = sheet();
+  pen.shadowColor = SHADOW.color;
+  pen.shadowBlur = SHADOW.blur * ratio;
+  pen.shadowOffsetY = SHADOW.offset * ratio;
+  drawHeaderLetters(pen);
+  pen.shadowColor = "transparent";
+  pen.globalCompositeOperation = "destination-out";
+  drawHeaderLetters(pen);
+  shadows = shade;
+
+  shadowSheet.width = innerWidth * ratio;
+  shadowSheet.height = innerHeight * ratio;
+
+  const picture = `url(${stencil.toDataURL()})`;
   for (const part of underHeader) {
     part.style.webkitMaskImage = part.style.maskImage = picture;
     part.style.webkitMaskSize = part.style.maskSize = `${innerWidth}px ${innerHeight}px`;
@@ -207,13 +272,6 @@ function drawHeaderStencil() {
   }
   slideUnderHeader();
 }
-
-// The header's two groups of letters: the logo with the page's name, and the
-// links with the appearance button.
-const casters = isHome ? [
-  [document.querySelector(".head__brand"), ".head__brand"],
-  [document.querySelector(".head__right"), ".head__right"],
-] : [];
 
 const measure = document.createElement("canvas").getContext("2d");
 
@@ -257,11 +315,17 @@ function slideUnderHeader() {
     return inkBoxes(part);
   });
 
-  // A group casts its soft shadow only while letters are actually crossing
-  // its own, not merely sharing its height somewhere else on the line.
-  for (const [group, selector] of casters) {
-    const own = inkBoxes(document.querySelector(selector));
-    group.classList.toggle("is-above", own.some((box) => inks.some((ink) => overlaps(box, ink))));
+  if (!shadows) return;
+  const ratio = devicePixelRatio || 1;
+  const sheet = shadowSheet.getContext("2d");
+  sheet.clearRect(0, 0, shadowSheet.width, shadowSheet.height);
+  for (const letter of headerLetters) {
+    if (!inks.some((ink) => overlaps(letter, ink))) continue;
+    const x = (letter.left - SHADOW.reach) * ratio;
+    const y = (letter.top - SHADOW.reach) * ratio;
+    const w = (letter.right - letter.left + SHADOW.reach * 2) * ratio;
+    const h = (letter.bottom - letter.top + SHADOW.reach * 2) * ratio;
+    sheet.drawImage(shadows, x, y, w, h, x, y, w, h);
   }
 }
 

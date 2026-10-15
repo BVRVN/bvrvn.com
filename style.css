@@ -117,20 +117,6 @@ body {
   mix-blend-mode: difference;
 }
 
-/* A soft shadow under the header's letters, only while the page's name is
-   passing beneath them. The header is drawn in white and inverted against
-   what lies below, so its shadow is drawn in white too: inverted over a
-   light page it comes out as a grey shade. */
-.head__brand,
-.head__right {
-  transition: filter 0.25s ease;
-}
-
-.head__brand.is-above,
-.head__right.is-above {
-  filter: drop-shadow(0 1px 1.5px rgba(255, 255, 255, 0.22));
-}
-
 /* Only the logo sits in this box, so the centred position never depends on
    the length of the page's name. */
 .head__brand {
@@ -392,6 +378,17 @@ body {
      beneath the header's letters. */
   /* Arrives once the photo has nearly finished opening. */
   animation: name-in 0.9s var(--ease) 1.1s backwards;
+}
+
+/* The sheet the script draws the header letters' shadows on: over the page's
+   name, under the header, the size of the window. */
+.head__shadows {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  pointer-events: none;
 }
 
 [data-veil] .head__intro {
