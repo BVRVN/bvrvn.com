@@ -321,9 +321,11 @@ function slideUnderHeader() {
   sheet.clearRect(0, 0, shadowSheet.width, shadowSheet.height);
   for (const letter of headerLetters) {
     if (!inks.some((ink) => overlaps(letter, ink))) continue;
-    const x = (letter.left - SHADOW.reach) * ratio;
+    // Widened only up and down: sideways it would spill onto the shadow of
+    // the next letter, which may have nothing passing under it.
+    const x = letter.left * ratio;
     const y = (letter.top - SHADOW.reach) * ratio;
-    const w = (letter.right - letter.left + SHADOW.reach * 2) * ratio;
+    const w = (letter.right - letter.left) * ratio;
     const h = (letter.bottom - letter.top + SHADOW.reach * 2) * ratio;
     sheet.drawImage(shadows, x, y, w, h, x, y, w, h);
   }
