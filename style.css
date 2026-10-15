@@ -367,7 +367,7 @@ body {
    line through --fold that the browser clamps at both ends. */
 .head__intro {
   position: fixed;
-  left: calc(var(--pad) + var(--photo-big) * var(--fold, 1) + clamp(10px, 1.2vw, 16px));
+  left: calc(var(--pad) + var(--photo-big) * var(--fold, 1) + clamp(18px, 2.6vw, 40px));
   /* A little above the photo's bottom edge, the lift shrinking with it. */
   top: calc(var(--pad) + (var(--photo-big) * 409 / 314 - clamp(16px, 2.2vw, 30px)) * var(--fold, 1));
   transform: translateY(-100%);
