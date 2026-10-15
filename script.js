@@ -208,17 +208,61 @@ function drawHeaderStencil() {
   slideUnderHeader();
 }
 
+// The header's two groups of letters: the logo with the page's name, and the
+// links with the appearance button.
+const casters = isHome ? [
+  [document.querySelector(".head__brand"), ".head__brand"],
+  [document.querySelector(".head__right"), ".head__right"],
+] : [];
+
+const measure = document.createElement("canvas").getContext("2d");
+
+// The boxes the ink of an element actually covers: pictures whole, and each
+// run of text cut down to its letters' real height, not the taller box the
+// browser keeps around a line.
+function inkBoxes(root) {
+  const boxes = [];
+  for (const picture of root.querySelectorAll("img:not(.head__strip), svg")) {
+    boxes.push(picture.getBoundingClientRect());
+  }
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const text = node.textContent.trim();
+    if (!text) continue;
+    const style = getComputedStyle(node.parentElement);
+    measure.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    const size = measure.measureText(style.textTransform === "uppercase" ? text.toUpperCase() : text);
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    for (const line of range.getClientRects()) {
+      const baseline = line.top + (line.height - size.fontBoundingBoxAscent - size.fontBoundingBoxDescent) / 2 + size.fontBoundingBoxAscent;
+      boxes.push({
+        left: line.left,
+        right: line.right,
+        top: baseline - size.actualBoundingBoxAscent,
+        bottom: baseline + size.actualBoundingBoxDescent,
+      });
+    }
+  }
+  return boxes;
+}
+
+const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+
 function slideUnderHeader() {
   // The stencil stays put on screen while the name moves beneath it.
-  const band = header.getBoundingClientRect();
-  let beneath = false;
-  for (const part of underHeader) {
+  const inks = underHeader.flatMap((part) => {
     const at = part.getBoundingClientRect();
     part.style.webkitMaskPosition = part.style.maskPosition = `${-at.left}px ${-at.top}px`;
-    if (at.top < band.bottom && at.bottom > band.top) beneath = true;
+    return inkBoxes(part);
+  });
+
+  // A group casts its soft shadow only while letters are actually crossing
+  // its own, not merely sharing its height somewhere else on the line.
+  for (const [group, selector] of casters) {
+    const own = inkBoxes(document.querySelector(selector));
+    group.classList.toggle("is-above", own.some((box) => inks.some((ink) => overlaps(box, ink))));
   }
-  // While something is passing under it, the header casts a soft shadow.
-  header.classList.toggle("is-above", beneath);
 }
 
 if (underHeader.length) {
