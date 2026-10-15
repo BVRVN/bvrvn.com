@@ -139,11 +139,22 @@ const isHome = document.body.classList.contains("is-home");
 const FOLD_KEY = "photo-fold";
 let folded = 0;
 
+const intro = document.querySelector(".head__intro");
+const header = document.querySelector(".head");
+
 function foldPhoto() {
   if (!isHome) return;
   const small = parseFloat(getComputedStyle(root).getPropertyValue("--grow-from"));
   folded = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5)));
   root.style.setProperty("--fold", String(1 - folded * (1 - small)));
+
+  // The name scrolls with the page. It fades in step with the distance left
+  // between it and the header, and is gone by the time it would reach it.
+  const below = header.getBoundingClientRect().bottom;
+  const top = intro.getBoundingClientRect().top;
+  const room = top + scrollY - below;
+  const fade = room > 0 ? (top - below) / room : 1;
+  root.style.setProperty("--intro-fade", String(Math.min(1, Math.max(0, fade))));
 }
 
 // The next page shrinks the photo on arrival from here, starting from
