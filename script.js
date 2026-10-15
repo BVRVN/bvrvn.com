@@ -148,12 +148,85 @@ function foldPhoto() {
   folded = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.5)));
   root.style.setProperty("--fold", String(1 - folded * (1 - small)));
 
-  // The name scrolls with the page and slips under the header's line as if
-  // beneath an edge: whatever has risen past it is cut away, so it never
-  // runs over the logo.
-  const edge = header.getBoundingClientRect().bottom;
-  const cut = Math.max(0, edge - intro.getBoundingClientRect().top);
-  intro.style.clipPath = cut ? `inset(${cut}px -100vw -100vh -100vw)` : "";
+  slideUnderHeader();
+}
+
+// The name and its line scroll with the page and pass beneath the header.
+// The header inverts whatever is under it, so letters crossing letters would
+// tangle; instead the name is hidden exactly where the header's own letters
+// are, leaving those drawn cleanly on top, as if the name ran under them.
+// That stencil is a picture of the header's letters, redrawn only when the
+// layout changes, and slid against the name as the page scrolls.
+const underHeader = isHome ? [...document.querySelectorAll(".head__name, .head__about")] : [];
+
+function drawHeaderStencil() {
+  if (!underHeader.length) return;
+  const ratio = devicePixelRatio || 1;
+  const canvas = document.createElement("canvas");
+  canvas.width = innerWidth * ratio;
+  canvas.height = innerHeight * ratio;
+  const pen = canvas.getContext("2d");
+  pen.scale(ratio, ratio);
+  pen.fillRect(0, 0, innerWidth, innerHeight);
+  // Everything drawn from here on punches a hole in the stencil.
+  pen.globalCompositeOperation = "destination-out";
+
+  // The logo, nudged around by a hair so the hole is a touch wider than the
+  // letters and no sliver of the name shows along their edges.
+  const logo = document.querySelector(".head__logo:not(.head__strip)");
+  const box = logo.getBoundingClientRect();
+  for (const dx of [-1.5, 0, 1.5]) {
+    for (const dy of [-1.5, 0, 1.5]) {
+      pen.drawImage(logo, box.left + dx, box.top + dy, box.width, box.height);
+    }
+  }
+
+  // The page's name and the links, set again in their own type.
+  pen.lineWidth = 3;
+  pen.lineJoin = "round";
+  for (const label of document.querySelectorAll(".head__word, .sections__item")) {
+    const text = label.textContent;
+    if (!text) continue;
+    const style = getComputedStyle(label);
+    pen.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    if ("letterSpacing" in pen) pen.letterSpacing = style.letterSpacing;
+    const range = document.createRange();
+    range.selectNodeContents(label);
+    const area = range.getBoundingClientRect();
+    const size = pen.measureText(text);
+    const tall = size.fontBoundingBoxAscent + size.fontBoundingBoxDescent;
+    const baseline = area.top + (area.height - tall) / 2 + size.fontBoundingBoxAscent;
+    pen.strokeText(text, area.left, baseline);
+    pen.fillText(text, area.left, baseline);
+  }
+
+  // The appearance button, as the disc it reads as.
+  const button = document.querySelector(".theme__icon").getBoundingClientRect();
+  pen.beginPath();
+  pen.arc(button.left + button.width / 2, button.top + button.height / 2, button.width / 2 + 1.5, 0, Math.PI * 2);
+  pen.fill();
+
+  const picture = `url(${canvas.toDataURL()})`;
+  for (const part of underHeader) {
+    part.style.webkitMaskImage = part.style.maskImage = picture;
+    part.style.webkitMaskSize = part.style.maskSize = `${innerWidth}px ${innerHeight}px`;
+    part.style.webkitMaskRepeat = part.style.maskRepeat = "no-repeat";
+  }
+  slideUnderHeader();
+}
+
+function slideUnderHeader() {
+  // The stencil stays put on screen while the name moves beneath it.
+  for (const part of underHeader) {
+    const at = part.getBoundingClientRect();
+    part.style.webkitMaskPosition = part.style.maskPosition = `${-at.left}px ${-at.top}px`;
+  }
+}
+
+if (underHeader.length) {
+  // Once the type has loaded and the page's name has been typed in.
+  document.fonts.ready.then(() => setTimeout(drawHeaderStencil, 1200));
+  addEventListener("resize", drawHeaderStencil);
 }
 
 // The next page shrinks the photo on arrival from here, starting from
